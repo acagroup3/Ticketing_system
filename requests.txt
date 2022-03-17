@@ -1,0 +1,63 @@
+
+
+// 1) Registration
+path:	/auth/register
+type:	POST
+request body: {
+	"firstName": "Frank",
+	"lastName": "Smith",
+	"country": "USA",
+	"email": "franksmith@gmail.com",
+	"password": "12345678"
+}
+
+
+// 2) Verification
+path:	auth/verify/:profile-id
+type:	GET
+
+
+// 3) Login
+path:	/auth/login
+type:	POST
+request body: {
+	"email": "franksmith@gmail.com",
+	"password": "12345678"
+}
+response body: {
+	"message": "Login successfully completed",
+   "profile-id": "623382c4e9f87f1ace53907e",
+   "access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMzgyYzRlOWY4N2YxYWNlNTM5MDdlIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlhdCI6MTY0NzU0MzA4MiwiZXhwIjoxNjQ3NTQ0ODgyfQ.RhILfj5WsMRSR_OJSnKzeqFxJdGSzctSrTf0RQHAQv4",
+   "refresh-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMzgyYzRlOWY4N2YxYWNlNTM5MDdlIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlhdCI6MTY0NzU0MzA4MiwiZXhwIjoxNjU3OTExMDgyfQ.oZDBfqsSJE5TSy5uQAY2a_PbqozmFdQ6JV_f3qicijk"
+}
+
+
+// 4) Profile request with access-token (do all standard requests by this way)
+path: /profile
+type: GET
+request header: {
+	"profile-id": "623382c4e9f87f1ace53907e".
+	"access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMzgyYzRlOWY4N2YxYWNlNTM5MDdlIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlhdCI6MTY0NzU0MzA4MiwiZXhwIjoxNjQ3NTQ0ODgyfQ.RhILfj5WsMRSR_OJSnKzeqFxJdGSzctSrTf0RQHAQv4"
+}
+response body: {
+	"firstName": "Frank",
+	"lastName": "Smith",
+	"country": "USA",
+	"email": "franksmith@gmail.com",
+	"coins": 1000
+}
+
+
+// 5) Profile request with refresh-token (is used to get new access-token + new refresh-token)
+path: /profile
+type: GET
+request header: {
+	"profile-id": "623382c4e9f87f1ace53907e".
+	"refresh-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMzgyYzRlOWY4N2YxYWNlNTM5MDdlIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlhdCI6MTY0NzU0MzA4MiwiZXhwIjoxNjU3OTExMDgyfQ.oZDBfqsSJE5TSy5uQAY2a_PbqozmFdQ6JV_f3qicijk"
+}
+response body: {
+	"message": "access-token and refresh-token successfully updated",
+	"profile-id": "623382c4e9f87f1ace53907e",
+	"access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMzgyYzRlOWY4N2YxYWNlNTM5MDdlIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlhdCI6MTY0NzU0MzI0NCwiZXhwIjoxNjQ3NTQ1MDQ0fQ.PcW60RaqmDc_P8VX8Fy9ng-Gl8A8HGaew35zIWW_Gro",
+	"refresh-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMzgyYzRlOWY4N2YxYWNlNTM5MDdlIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlhdCI6MTY0NzU0MzI0NCwiZXhwIjoxNjU3OTExMjQ0fQ._cmbViC8E9dYbAj7HTe9mqLl1Ty_6yjJgtsg8sLSPRc"
+}
