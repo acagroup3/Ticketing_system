@@ -6,6 +6,8 @@ const swaggerUi = require('swagger-ui-express');
 const app = express();
 const morgan = require('morgan');
 
+const myOrdersRouter = require("./routes/myOrders");
+const myTicketsRouter = require("./routes/myTickets")
 
 // Swagger configuration
 const SwaggerOptions = swaggerJsdoc({
@@ -26,5 +28,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
+
+app.use("/profile/my-orders", myOrdersRouter);
+app.use("/profile/my-tickets", myTicketsRouter);
 
 module.exports = app;
