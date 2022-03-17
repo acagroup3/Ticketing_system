@@ -1,5 +1,5 @@
-const JWTHandler = require('../services/JWTHandler.js');
-const User = require('../models/user.js');
+const JWTHandler = require('../services/JWTHandler');
+const User = require('../models/user');
 
 module.exports = async (req, res, next) => {
 	try {
@@ -12,15 +12,15 @@ module.exports = async (req, res, next) => {
 
 		// Requests with invalid profile-id length
 		if (
-			req.headers['profile-id'].length != 12 &&
-			req.headers['profile-id'].length != 24
+			req.headers['profile-id'].length !== 12 &&
+			req.headers['profile-id'].length !== 24
 		) {
 			return res
 				.status(404)
 				.send('profile-id shall contain 12 or 24 characters');
 		}
 
-		let user = await User.findOne({ _id: req.headers['profile-id'] });
+		const user = await User.findOne({ _id: req.headers['profile-id'] });
 
 		// Requests with invalid profile-id
 		if (user === null) {
@@ -37,7 +37,7 @@ module.exports = async (req, res, next) => {
 			}
 
 			// Verifying refresh-token
-			let tokenData = await JWTHandler.verifyToken(
+			const tokenData = await JWTHandler.verifyToken(
 				req.headers['refresh-token']
 			);
 
@@ -47,8 +47,8 @@ module.exports = async (req, res, next) => {
 					return res
 						.status(404)
 						.send('refresh-token date is expired');
-				} else
-					return res.status(404).send('refresh-token is not valid');
+				};
+				return res.status(404).send('refresh-token is not valid');
 			}
 
 			// If refresh-token is valid, but it is for another user
@@ -101,7 +101,7 @@ module.exports = async (req, res, next) => {
 			}
 
 			// Verifying access-token
-			let tokenData = await JWTHandler.verifyToken(
+			const tokenData = await JWTHandler.verifyToken(
 				req.headers['access-token']
 			);
 
@@ -109,7 +109,8 @@ module.exports = async (req, res, next) => {
 			if (tokenData.body === null) {
 				if (tokenData.errorMessage === 'TokenExpiredError') {
 					return res.status(404).send('access-token date is expired');
-				} else return res.status(404).send('access-token is not valid');
+				};
+				return res.status(404).send('access-token is not valid');
 			}
 
 			// If access-token is valid, but it is for another user
@@ -132,9 +133,10 @@ module.exports = async (req, res, next) => {
 			return res
 				.status(404)
 				.send('access-token is not set in request header');
-		}
+		};
 	} catch (e) {
 		res.status(404).send('verifyJWT test not passed!');
 		console.log(e);
-	}
+	};
+	return res.status(404).send('verifyJWT test not passed!');
 };

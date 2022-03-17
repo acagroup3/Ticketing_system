@@ -15,14 +15,14 @@ module.exports = async (htmlText, email) => {
 		{ from: '<aca_node_group3@mail.ru>' }
 	);
 
-	const message = {
+	const messageObj = {
 		to: email,
 		subject: 'Verify your Ticketing system accaunt',
 		html: htmlText,
 	};
 
 	const mailer = async (message) => {
-		let info = await transporter.sendMail(message);
+		await transporter.sendMail(message);
 	};
-	await mailer(message);
+	await mailer(messageObj);
 };
