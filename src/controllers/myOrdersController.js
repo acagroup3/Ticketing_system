@@ -2,7 +2,7 @@
 
 async function getMyOrders(req, res) {
 	try{
-		res.send("myorders list");
+		res.send(JSON.stringify(req.headers));
 	}
 	catch(err){
 		console.log(err);

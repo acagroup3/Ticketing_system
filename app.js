@@ -28,13 +28,14 @@ const SwaggerOptions = swaggerJsdoc({
 });
 
 app.use('/app-docs', swaggerUi.serve, swaggerUi.setup(SwaggerOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 // Middlewares
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/auth', authRouter);
