@@ -2,11 +2,11 @@ const { Schema, model } = require('mongoose');
 
 const orderSchema = new Schema(
 	{
-		userId: { type: Schema.Types.ObjectId, ref: 'users' },
+		userId: { type: Schema.Types.ObjectId, ref: 'User' },
 		ordersList: [
 			{
 				order: [
-					{ type: Schema.Types.ObjectId, ref: 'tickets', _id: false },
+					{ type: Schema.Types.ObjectId, ref: 'Ticket', _id: false },
 				],
 				date: { type: Date, default: Date.now() },
 				_id: false,

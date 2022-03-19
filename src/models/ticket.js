@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const ticketSchema = new Schema(
 	{
-		userId: { type: Schema.Types.ObjectId, ref: 'Users' },
+		userId: { type: Schema.Types.ObjectId, ref: 'User' },
 		name: { type: String, required: true },
 		description: { type: String, required: true },
 		date: { type: Date, required: true },
