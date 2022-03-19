@@ -67,7 +67,6 @@ async function buyShopCard(req, res) {
 async function deleteFromShopCard(req, res) {
 	const user = await User.findOne({ _id: req.headers['profile-id'] })
 	const { ticketId } = req.params
-	console.log(ticketId)
 
 	const ticketIndexInSHopCard = user.shoppingCard.reduce((acc, ticket, index) => {
 		if (ticket.ticketId.toString() === ticketId) { acc = index }
