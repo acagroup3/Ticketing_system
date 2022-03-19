@@ -13,6 +13,7 @@ const myTicketsRouter = require("./src/routers/myTickets")
 const authRouter = require('./src/routers/authRouter');
 const userRouter = require('./src/routers/userRouter');
 const shopCardRouter = require('./src/routers/shopCardRouter');
+const ticketsRouter = require('./src/routers/ticketsRouter');
 
 // Swagger configuration
 const SwaggerOptions = swaggerJsdoc({
@@ -43,5 +44,6 @@ app.use("/profile/my-orders", myOrdersRouter);
 app.use("/profile/my-tickets", myTicketsRouter);
 
 app.use("/shopping-card", shopCardRouter)
+app.use("/tickets", ticketsRouter)
 
 module.exports = app;
