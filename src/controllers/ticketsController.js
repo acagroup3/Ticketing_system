@@ -1,7 +1,8 @@
 const Ticket = require('../models/ticket');
 const TicketFeatures = require('../utils/appFeatures');
 const User = require('../models/user');
-const Comment = require('../models/comment')
+const Comment = require('../models/comment');
+const Order = require('../models/order');
 
 exports.getAllTickets = async (req, res) => {
 	try {
@@ -35,35 +36,38 @@ exports.getAllTickets = async (req, res) => {
 
 exports.getComments = async (req, res) => {
 	try {
-		const { ticketId } = req.params
-		let doesTicketExist
+		const { ticketId } = req.params;
+		let doesTicketExist;
 		try {
-			doesTicketExist = await Ticket.findOne({ _id: ticketId })
+			doesTicketExist = await Ticket.findOne({ _id: ticketId });
 		} catch (e) {
-			// if ticketId incorrect 
+			// if ticketId incorrect
 			// will be error and ticket will be undefined
-			console.log(e.message)
+			console.log(e.message);
 		}
 
 		if (!doesTicketExist) {
 			res.status(404).json({
 				error: 'Not Found',
-				errorMes: 'No ticket with such ID.'
-			})
-			return
+				errorMes: 'No ticket with such ID.',
+			});
+			return;
 		}
 
-		const ticketComments = await Comment.find({ ticketId: ticketId }, 'content date userId')
+		const ticketComments = await Comment.find(
+			{ ticketId: ticketId },
+			'content date userId'
+		);
 
-		res.send(ticketComments)
+		res.send(ticketComments);
 	} catch (e) {
 		console.log(e);
 		res.status(500).json({
 			message: 'A server-side error occurred',
-			errorMes: e.message
+			errorMes: e.message,
 		});
-	};
-}
+	}
+};
 
 exports.likeTicket = async (req, res) => {
 	try {
@@ -77,7 +81,7 @@ exports.likeTicket = async (req, res) => {
 		res.status(200).json({
 			status: 'success',
 			data: {
-				ticket
+				ticket,
 			},
 		});
 	} catch (err) {
@@ -99,20 +103,14 @@ exports.getTicketDetails = async (req, res) => {
 			return;
 		}
 		// get ticket details without userId
-		const {
-			_id,
-			name,
-			description,
-			date,
-			price
-		} = ticket;
+		const { _id, name, description, date, price } = ticket;
 		const ticketDetails = {
 			_id,
 			name,
 			description,
 			date,
 			price,
-			likeCount: ticket.likes.length
+			likeCount: ticket.likes.length,
 		};
 
 		res.status(200).json({
@@ -164,6 +162,25 @@ exports.buyTicket = async (req, res) => {
 		await ticketOwner.save();
 		ticket.quantity -= 1;
 		await ticket.save();
+		const userOrders = await Order.findOne({ userId: user._id });
+		if (!userOrders) {
+			console.log('No orders');
+			const newOrder = new Order({
+				userId: user._id,
+				ordersList: [
+					{
+						order: [ticket._id],
+					},
+				],
+			});
+			await newOrder.save();
+		} else {
+			console.log('userOrders', userOrders);
+			userOrders.ordersList[userOrders.ordersList.length] = {
+				order: [ticket._id],
+			};
+			await userOrders.save();
+		}		
 		res.status(200).json({
 			status: 'success',
 			data: {
@@ -176,4 +193,4 @@ exports.buyTicket = async (req, res) => {
 			message: err,
 		});
 	}
-}
+};
