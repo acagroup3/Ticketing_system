@@ -1,5 +1,5 @@
-const {Router} = require("express");
-const myOrdersController = require("../controllers/myOrdersController");
+const { Router } = require('express');
+const myOrdersController = require('../controllers/myOrdersController');
 
 const router = Router();
 
@@ -11,12 +11,12 @@ const router = Router();
  *   description: Getting User Orders List.
  *   requestBody:
  *     required: false
- *       
+ *
  */
 
 router
-	.get("/", myOrdersController.getMyOrders)
-	.get("/:orderId", myOrdersController.getMyOrder)
-	.delete("/:orderId/:ticketId", myOrdersController.cancelTicket);
+	.get('/', myOrdersController.getMyOrders)
+	.get('/:orderId', myOrdersController.getMyOrder)
+	.delete('/:orderId/:ticketId', myOrdersController.cancelTicket);
 
 module.exports = router;

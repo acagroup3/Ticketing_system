@@ -9,6 +9,7 @@ const userSchema = new Schema(
 		password: { type: String, required: true },
 		isVerified: { type: Boolean, default: false },
 		coins: { type: Number },
+		verificationToken: { type: String },
 		accessToken: { type: String },
 		refreshToken: { type: String },
 		shoppingCard: [

@@ -7,8 +7,8 @@ const app = express();
 const morgan = require('morgan');
 const verifyJWT = require('./src/middlewares/verifyJWT');
 
-const myOrdersRouter = require("./src/routers/myOrders");
-const myTicketsRouter = require("./src/routers/myTickets")
+const myOrdersRouter = require('./src/routers/myOrders');
+const myTicketsRouter = require('./src/routers/myTickets');
 // Routers
 const authRouter = require('./src/routers/authRouter');
 const userRouter = require('./src/routers/userRouter');
@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/auth', authRouter);
 app.use('/profile', verifyJWT, userRouter);
 
-app.use("/profile/my-orders", myOrdersRouter);
-app.use("/profile/my-tickets", myTicketsRouter);
+app.use('/profile/my-orders', myOrdersRouter);
+app.use('/profile/my-tickets', myTicketsRouter);
 
 module.exports = app;
