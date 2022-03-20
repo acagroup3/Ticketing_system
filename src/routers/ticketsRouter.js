@@ -1,7 +1,9 @@
 const { Router } = require('express');
-const { getAllTickets } = require('../controllers/ticketsController');
+const ticketsController = require('../controllers/ticketsController');
 
-const router = Router();
-router.get('/', getAllTickets);
+const ticketsRouter = Router();
 
-module.exports = router;
+ticketsRouter.get('/', ticketsController.getAllTickets);
+ticketsRouter.get('/:ticketId/comments', ticketsController.getComments)
+
+module.exports = ticketsRouter;
