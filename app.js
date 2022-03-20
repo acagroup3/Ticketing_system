@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Routes
-app.use('/auth', verifyJWT, authRouter);
+app.use('/auth', authRouter);
 app.use('/profile', verifyJWT, userRouter);
 
 app.use('/profile/my-orders', verifyJWT, myOrdersRouter);
