@@ -31,19 +31,24 @@ exports.addUser = async (req, res) => {
 			isVerified: false,
 			coins: 0,
 		});
+		await user.save();
 
-		// Save user in database
-		const createdUser = await user.save();
+		// Create verification token
+		const verificationToken = await JWTHandler.createVerificationToken(
+			user._id
+		);
+		user.verificationToken = verificationToken;
+		await user.save();
 
 		// Reading verify.pug file
 		const htmlText = await convertPugToHTML('verify.pug', {
-			name: createdUser.firstName,
-			id: createdUser._id,
+			name: user.firstName,
+			token: verificationToken,
 		});
 
 		// Send verification link to user's email address
-		// await sendVerificationMail(htmlText, req.body.email);
 		await sendVerificationMail(htmlText, 'aca_node_group3@mail.ru');
+		// await sendVerificationMail(htmlText, req.body.email);
 
 		// 201 _ Created
 		return res
@@ -52,45 +57,68 @@ exports.addUser = async (req, res) => {
 				'Account successfully registered. Verification link is sent to your email'
 			);
 	} catch (e) {
-		res.status(404).send('Failed to register');
 		console.log(e);
-	};
-	return res.status(404).send('Failed to register');
+		// 500 _ Internal server errors
+		return res.status(500).send('A server-side error occured');
+	}
 };
 
 exports.verifyUser = async (req, res) => {
 	try {
-		// user_id must be a string of 12 or 24 characters
-		if (
-			req.params.user_id.length === 12 ||
-			req.params.user_id.length === 24
-		) {
-			const user = await User.findOne({ _id: req.params.user_id });
+		// Checking verification token
+		const tokenData = await JWTHandler.verifyToken(
+			req.params.verificationToken
+		);
 
-			// If everything is OK
-			if (user !== null && user.isVerified === false) {
-				user.isVerified = true;
-				user.coins = 1000;
-				await user.save();
+		// If verification-token is not valid
+		if (tokenData.body === null) {
+			if (tokenData.errorMessage === 'TokenExpiredError') {
+				return res
+					.status(404)
+					.send('Verification token date is expired');
+			}
+			return res.status(404).send('Verification token is not valid');
+		}
 
-				const order = new Order({
-					userId: user._id,
-				});
-				await order.save();
+		// If verification token is valid
+		const user = await User.findOne({ _id: tokenData.body['profile-id'] });
 
-				return res.status(200).send('Accaunt successfully verified');
-			};
-			if (user !== null && user.isVerified === true) {
-				return res.status(409).send('Accaunt is already verified');
-			};
-			return res.status(404).send('There is no user with such id');
-		};
-		return res.status(404).send('Request contains invalid id');
+		if (user === null) {
+			return res
+				.status(404)
+				.send(
+					'Verification token is valid, but user data can not be found in database'
+				);
+		}
+
+		if (user !== null && user.isVerified === true) {
+			return res.status(409).send('Accaunt is already verified');
+		}
+
+		// If everything is OK
+		if (user !== null && user.isVerified === false) {
+			// Complete verification and add 1000 coins
+			user.isVerified = true;
+			user.coins = 1000;
+
+			// Delete the token used for verification
+			user.verificationToken = undefined;
+			await user.save();
+
+			// Create empty order document for user
+			const order = new Order({
+				userId: user._id,
+			});
+			await order.save();
+
+			return res.status(200).send('Accaunt successfully verified');
+		}
+
+		return res.status(404).send('Verification failed');
 	} catch (e) {
 		console.log(e);
-		// Internal server error
 		return res.status(500).send('A server-side error occured');
-	};
+	}
 };
 
 exports.login = async (req, res) => {
@@ -123,12 +151,10 @@ exports.login = async (req, res) => {
 			if (user.isVerified === true) {
 				// Create token
 				const accessToken = await JWTHandler.createAccessToken(
-					user._id,
-					user.email
+					user._id
 				);
 				const refreshToken = await JWTHandler.createRefreshToken(
-					user._id,
-					user.email
+					user._id
 				);
 				user.accessToken = accessToken;
 				user.refreshToken = refreshToken;
@@ -136,15 +162,14 @@ exports.login = async (req, res) => {
 
 				return res.status(200).json({
 					message: 'Login successfully completed',
-					'profile-id': user._id,
 					'access-token': user.accessToken,
 					'refresh-token': user.refreshToken,
 				});
 			}
 		}
+		return res.status(404).send('Authentication failed');
 	} catch (e) {
 		console.log(e);
-		return res.status(500).send('Server side error');
-	};
-	return res.status(404).send('Authentication failed');
+		return res.status(500).send('A server-side error occured');
+	}
 };

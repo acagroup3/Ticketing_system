@@ -70,6 +70,7 @@ async function deleteTicket(req, res) {
 	try {
 		const cutTicket = await Ticket.findById(req.params.id);
 
+
 		if (cutTicket.quantity === cutTicket.initialQuantity) {
 			await Ticket.findByIdAndDelete(req.params.id);
 			res.status(204).json({
@@ -90,3 +91,4 @@ async function deleteTicket(req, res) {
 	}
 }
 module.exports = { getMyTickets, createTicket, editTicket, deleteTicket };
+

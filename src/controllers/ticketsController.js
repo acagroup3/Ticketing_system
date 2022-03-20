@@ -64,3 +64,69 @@ exports.getComments = async (req, res) => {
 		});
 	};
 }
+
+exports.likeTicket = async (req, res) => {
+	try {
+		const ticket = await Ticket.findById(req.params.id);
+		const userId = req.headers['profile-id'];
+		ticket.like = ticket.like.filter(
+			(like) => like.userId.toString() !== userId
+		);
+		ticket.like.push({ userId });
+		await ticket.save();
+		res.status(200).json({
+			status: 'success',
+			data: {
+				ticket,
+			},
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: 'fail',
+			message: err,
+		});
+	}
+};
+
+exports.getTicketDetails = async (req, res) => {
+	try {
+		const ticket = await Ticket.findById(req.params.id);
+		// get ticket details without userId
+		const {
+			_id,
+			name,
+			description,
+			date,
+			price,
+			quantity,
+			initialQuantity,
+			cancelDate,
+			countries,
+		} = ticket;
+		const ticketDetails = {
+			_id,
+			name,
+			description,
+			date,
+			price,
+			quantity,
+			initialQuantity,
+			cancelDate,
+			countries,
+			likeCount: ticket.likeCount.length,
+		};
+
+		res.status(200).json({
+			status: 'success',
+			data: {
+				ticketDetails,
+			},
+		});
+	} catch (err) {
+		res.status(400).json({
+			status: 'fail',
+			message: err,
+		});
+	}
+};
+

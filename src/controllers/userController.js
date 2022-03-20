@@ -14,10 +14,29 @@ exports.getProfileData = async (req, res) => {
 			});
 		}
 
-		res.status(404).send('Profile not found in base');
+		return res.status(404).send('Profile not found in base');
 	} catch (e) {
 		console.log(e);
 		return res.status(500).send('Server side error');
-	};
-	return res.status(404).send('Profile not found in base');
+	}
+};
+
+exports.logout = async (req, res) => {
+	try {
+		const user = await User.findOne({ _id: req.headers['profile-id'] });
+
+		// Delete all tokens for user
+		if (user !== null) {
+			user.accessToken = undefined;
+			user.refreshToken = undefined;
+			await user.save();
+
+			return res.status(200).send('Logout successfully completed');
+		}
+
+		return res.status(404).send('Profile not found in base');
+	} catch (e) {
+		console.log(e);
+		return res.status(500).send('Server side error');
+	}
 };

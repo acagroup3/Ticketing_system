@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.route('/register').post(authController.addUser);
 
-router.route('/verify/:user_id').get(authController.verifyUser);
+router.route('/verify/:verificationToken').get(authController.verifyUser);
 
 router.route('/login').post(authController.login);
 

@@ -6,28 +6,26 @@ async function getMyOrders(req, res) {
 	}
 	catch(err){
 		console.log(err);
-		res.status(500).json({error: "something went wrong"})
+		res.status(500).json({ error: 'something went wrong' });
 	}
 }
 
 async function getMyOrder(req, res) {
-	try{
+	try {
 		res.send(req.params);
-	}
-	catch(err){
+	} catch (err) {
 		console.log(err);
-		res.status(500).json({error: "something went wrong"})
+		res.status(500).json({ error: 'something went wrong' });
 	}
 }
 
 async function cancelTicket(req, res) {
-	try{
+	try {
 		res.send(req.params);
-	}
-	catch(err){
+	} catch (err) {
 		console.log(err);
-		res.status(500).json({error: "something went wrong"});
+		res.status(500).json({ error: 'something went wrong' });
 	}
 }
 
-module.exports = {getMyOrders, getMyOrder, cancelTicket};
+module.exports = { getMyOrders, getMyOrder, cancelTicket };

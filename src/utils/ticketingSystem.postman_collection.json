@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "8e389136-8d6c-463a-8c31-09a744c92490",
+		"name": "ticketingSystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Register user Mike (form)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstName",
+									"value": "Mike",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Owen",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "England",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "mikeowen@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "11112222",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register user Frank (JSON)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Frank\",\r\n    \"lastName\": \"Smith\",\r\n    \"country\": \"USA\",\r\n    \"email\": \"franksmith@gmail.com\",\r\n    \"password\": \"22446688\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register John Doe"
+					},
+					"response": []
+				},
+				{
+					"name": "Verification link",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3000/auth/verify/{{verification-token}}",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"verify",
+								"{{verification-token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "mikeowen@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "11112222",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"item": [
+				{
+					"name": "Profile request with access-token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzNzFiMGEyMTM3ZTE5Mzg5NWExZDdkIiwiaWF0IjoxNjQ3Nzc4NzUxLCJleHAiOjE2NDc3ODU5NTF9.9rs_o-A1qK0sTmjpMkr_Q1UiCwInmKmjfJ6okILyVjQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile request with refresh-token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "refresh-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzNzFiMGEyMTM3ZTE5Mzg5NWExZDdkIiwiaWF0IjoxNjQ3Nzc4NzI2LCJleHAiOjE2NTgxNDY3MjZ9.lMP1VgoIqObUC6Dgs1ddEwZEDW399RFM4Hvsj30uUKg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzNzFiMGEyMTM3ZTE5Mzg5NWExZDdkIiwiaWF0IjoxNjQ3Nzc4NzUxLCJleHAiOjE2NDc3ODU5NTF9.9rs_o-A1qK0sTmjpMkr_Q1UiCwInmKmjfJ6okILyVjQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/profile/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profile",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "profile-id",
+			"value": "622fae3d3d421a10efb3f3a6"
+		},
+		{
+			"key": "access-token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMjRkMmFhNTAwZDg2NjJmZjFhMTkxIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlh..."
+		},
+		{
+			"key": "refresh-token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMjRkMmFhNTAwZDg2NjJmZjFhMTkxIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlh..."
+		},
+		{
+			"key": "verification-token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzNzFiNWUyMTM3ZTE5Mzg5NWExZDg3IiwiaWF0IjoxNjQ3Nzc4NjU0LCJleHAiOjE2NDc4MDAyNTR9.J1vpgMb-h5nkqEQyQww_rwo5Ms7h9pYRsZH3HuHfKHQ"
+		}
+	]
+}
