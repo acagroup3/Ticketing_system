@@ -14,7 +14,7 @@ async function getShopCard(req, res) {
 		res.json({ shoppingCard: user.shoppingCard })
 	} catch (e) {
 		console.log(e);
-		return res.status(500).json({
+		res.status(500).json({
 			message: 'A server-side error occurred',
 			errorMes: e.message
 		});
@@ -81,7 +81,7 @@ async function buyShopCardTickets(req, res) {
 		})
 	} catch (e) {
 		console.log(e);
-		return res.status(500).json({
+		res.status(500).json({
 			message: 'A server-side error occurred',
 			errorMes: e.message
 		});
@@ -115,7 +115,7 @@ async function deleteFromShopCard(req, res) {
 		})
 	} catch (e) {
 		console.log(e);
-		return res.status(500).json({
+		res.status(500).json({
 			message: 'A server-side error occurred',
 			errorMes: e.message
 		});
