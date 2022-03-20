@@ -1,9 +1,10 @@
 // const orders = require("../models/order");
 
 async function getMyOrders(req, res) {
-	try {
-		res.send('myorders list');
-	} catch (err) {
+	try{
+		res.send(JSON.stringify(req.headers));
+	}
+	catch(err){
 		console.log(err);
 		res.status(500).json({ error: 'something went wrong' });
 	}

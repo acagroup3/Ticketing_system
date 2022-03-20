@@ -14,7 +14,7 @@ const userSchema = new Schema(
 		refreshToken: { type: String },
 		shoppingCard: [
 			{
-				ticketId: { type: Schema.Types.ObjectId, ref: 'Tickets' },
+				ticketId: { type: Schema.Types.ObjectId, ref: 'Ticket' },
 				ticketName: String,
 				price: Number,
 				_id: false,
