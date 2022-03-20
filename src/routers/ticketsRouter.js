@@ -1,10 +1,14 @@
 const { Router } = require('express');
-const { getAllTickets, getTicketDetails } = require('../controllers/ticketsController');
 
-const router = Router();
-router
-	.get('/', getAllTickets)
-	.get('/:id', getTicketDetails);
-;
+const ticketsController = require('../controllers/ticketsController');
 
-module.exports = router;
+const ticketsRouter = Router();
+
+ticketsRouter
+	.get('/', ticketsController.getAllTickets)
+	.get('/:ticketId/comments', ticketsController.getComments)
+	.get('/:id', ticketsController.getTicketDetails)
+	.post('/:id/_like', ticketsController.likeTicket)
+	.post('/:id/_buy', ticketsController.buyTicket);
+
+module.exports = ticketsRouter;

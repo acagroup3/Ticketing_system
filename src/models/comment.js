@@ -10,6 +10,6 @@ const commentSchema = new Schema(
 	{ collection: 'comments', strict: false }
 );
 
-commentSchema.index({ ticketId: 1 }, { unique: true });
+commentSchema.index({ ticketId: 1 });
 
 module.exports = model('Comment', commentSchema);
