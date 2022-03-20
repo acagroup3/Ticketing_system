@@ -7,13 +7,13 @@ const app = express();
 const morgan = require('morgan');
 const verifyJWT = require('./src/middlewares/verifyJWT');
 
-const myOrdersRouter = require("./src/routers/myOrders");
-const myTicketsRouter = require("./src/routers/myTickets")
+const myOrdersRouter = require('./src/routers/myOrders');
+const myTicketsRouter = require('./src/routers/myTickets');
 // Routers
 const authRouter = require('./src/routers/authRouter');
 const userRouter = require('./src/routers/userRouter');
 const shopCardRouter = require('./src/routers/shopCardRouter');
-const ticketsRouter = require('./src/routers/ticketsRouter');
+const allTickets = require('./src/routers/ticketsRouter');
 
 // Swagger configuration
 const SwaggerOptions = swaggerJsdoc({
@@ -28,22 +28,22 @@ const SwaggerOptions = swaggerJsdoc({
 });
 
 app.use('/app-docs', swaggerUi.serve, swaggerUi.setup(SwaggerOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Middlewares
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/auth', authRouter);
 app.use('/profile', verifyJWT, userRouter);
 
-app.use("/profile/my-orders", myOrdersRouter);
-app.use("/profile/my-tickets", myTicketsRouter);
+app.use('/profile/my-orders', myOrdersRouter);
+app.use('/profile/my-tickets', myTicketsRouter);
 
-app.use("/shopping-card", shopCardRouter)
-app.use("/tickets", ticketsRouter)
+app.use('/shopping-card', shopCardRouter);
+app.use('/profile/tickets', allTickets);
 
 module.exports = app;
