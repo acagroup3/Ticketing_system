@@ -127,8 +127,31 @@ async function deleteFromShopCard(req, res) {
 	};
 }
 
+async function emptyShopCard(req, res) {
+	try {
+		const user = await User.findOne({ _id: req.headers['profile-id'] })
+
+		if (user.shoppingCard.length === 0) {
+			res.send('Your shopping card is already empty.')
+			return
+		}
+
+		user.shoppingCard = []
+		user.save()
+
+		res.send('Your shopping card has been emptied.')
+	} catch (e) {
+		console.log(e);
+		res.status(500).json({
+			message: 'A server-side error occurred',
+			errorMes: e.message
+		});
+	};
+}
+
 module.exports = {
 	getShopCard,
 	buyShopCardTickets,
-	deleteFromShopCard
+	deleteFromShopCard,
+	emptyShopCard
 }

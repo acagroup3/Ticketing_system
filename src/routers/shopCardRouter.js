@@ -6,6 +6,7 @@ const ticketIdValidation = require('../middlewares/ticketIdValidation')
 const shopCardRouter = Router()
 
 shopCardRouter.get('/', shopCardController.getShopCard)
+shopCardRouter.delete('/', shopCardController.emptyShopCard)
 shopCardRouter.get('/_buy', shopCardController.buyShopCardTickets)
 shopCardRouter.delete('/:ticketId', ticketIdValidation, shopCardController.deleteFromShopCard)
 
