@@ -91,4 +91,3 @@ async function deleteTicket(req, res) {
 	}
 }
 module.exports = { getMyTickets, createTicket, editTicket, deleteTicket };
-

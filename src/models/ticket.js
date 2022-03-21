@@ -12,7 +12,7 @@ const ticketSchema = new Schema(
 		canCancel: { type: Boolean, default: false },
 		cancelDate: { type: Date },
 		countries: [{ type: String, _id: false }],
-		like: [{ userId: {type: Schema.Types.ObjectId, ref: 'User'}, _id: false }]
+		likes: [{ userId: {type: Schema.Types.ObjectId, ref: 'User'}, _id: false }]
 	},
 	{ collection: 'tickets', strict: false }
 );
