@@ -1,7 +1,8 @@
 const Ticket = require('../models/ticket');
 const TicketFeatures = require('../utils/appFeatures');
 const User = require('../models/user');
-const Comment = require('../models/comment')
+const Comment = require('../models/comment');
+const Order = require('../models/order')
 
 exports.getAllTickets = async (req, res) => {
 	try {
@@ -31,38 +32,75 @@ exports.getAllTickets = async (req, res) => {
 			message: err,
 		});
 	}
-};
+}
 
 exports.getComments = async (req, res) => {
 	try {
-		const { ticketId } = req.params
-		let doesTicketExist
-		try {
-			doesTicketExist = await Ticket.findOne({ _id: ticketId })
-		} catch (e) {
-			// if ticketId incorrect 
-			// will be error and ticket will be undefined
-			console.log(e.message)
-		}
-
-		if (!doesTicketExist) {
-			res.status(404).json({
-				error: 'Not Found',
-				errorMes: 'No ticket with such ID.'
-			})
-			return
-		}
-
-		const ticketComments = await Comment.find({ ticketId: ticketId }, 'content date userId')
+		const ticketComments = await Comment.find({ ticketId: req.params.ticketId }, 'content date ticketId').populate('userId', 'firstName lastName country')
 
 		res.send(ticketComments)
 	} catch (e) {
 		console.log(e);
-		return res.status(500).json({
+		res.status(500).json({
 			message: 'A server-side error occurred',
 			errorMes: e.message
 		});
 	};
+}
+
+exports.addComment = async (req, res) => {
+	try {
+		const user = await User.findOne({ _id: req.headers['profile-id'] })
+
+		const { content } = req.body
+		if (content.trim().length === 0) { // if content no contain any symbol
+			res.sendStatus(204)
+			return
+		}
+
+		await Comment.create({
+			content,
+			userId: user._id,
+			ticketId: req.params.ticketId
+		})
+
+		res.status(201).json({
+			message: 'Comment successfully posted.',
+			content,
+		})
+	} catch (e) {
+		console.log(e);
+		res.status(500).json({
+			message: 'A server-side error occurred',
+			errorMes: e.message
+		});
+	};
+
+}
+
+exports.addToShoppingCard = async (req, res) => {
+	try {
+		const user = await User.findOne({ _id: req.headers['profile-id'] })
+		// ticket well be in req.ticket after middleware  
+
+		user.shoppingCard.push({
+			ticketId: req.params.ticketId,
+			ticketName: req.ticket.name,
+			price: req.ticket.price
+		})
+		user.save()
+
+		res.json({
+			message: 'The ticket has been successfully added to your Shopping Card.'
+		})
+	} catch (e) {
+		console.log(e);
+		res.status(500).json({
+			message: 'A server-side error occurred',
+			errorMes: e.message
+		});
+	};
+
 }
 
 exports.likeTicket = async (req, res) => {
@@ -86,7 +124,7 @@ exports.likeTicket = async (req, res) => {
 			message: err,
 		});
 	}
-};
+}
 
 exports.getTicketDetails = async (req, res) => {
 	try {
@@ -128,5 +166,5 @@ exports.getTicketDetails = async (req, res) => {
 			message: err,
 		});
 	}
-};
+}
 
