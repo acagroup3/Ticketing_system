@@ -6,12 +6,19 @@ async function getShopCard(req, res) {
 	try {
 		const user = await User.findOne({ _id: req.headers['profile-id'] })
 
-		if (user.shoppingCard.length === 0) {
+		if (user.shoppingCard.length === 0) {// Do we have tickets in the shopping card
 			res.json({ message: `You don't have tickets in the shopping card.` })
 			return
 		}
 
-		res.json({ shoppingCard: user.shoppingCard })
+		const totalPrice = user.shoppingCard.reduce((acc, ticket) => {// calculate total price
+			return acc + ticket.price
+		}, 0)
+
+		res.json({
+			totalPrice,
+			shoppingCard: user.shoppingCard
+		})
 	} catch (e) {
 		console.log(e);
 		res.status(500).json({
@@ -26,7 +33,7 @@ async function buyShopCardTickets(req, res) {
 		const user = await User.findOne({ _id: req.headers['profile-id'] })
 
 		if (user.shoppingCard.length === 0) {
-			res.json({ message: 'Your shopping card are empty.' })
+			res.json({ message: "You don't have tickets in the shopping card." })
 			return
 		}
 
@@ -34,8 +41,7 @@ async function buyShopCardTickets(req, res) {
 		if (user.coins < price) { // Do we have enough money?
 			res.status(400).json({
 				error: 'Purchase failed!',
-				message: `You need ${price} coins to buy all tickets.
-					Your balance: ${user.coins}`
+				message: `You need ${price} coins to buy all tickets.Your balance: ${user.coins}`
 			})
 			return
 		}
@@ -67,17 +73,17 @@ async function buyShopCardTickets(req, res) {
 
 			await User.findByIdAndUpdate(ticket.ticketId.userId, { $inc: { coins: +ticket.price } }) // add ticket owner coins
 
-			await Ticket.findByIdAndUpdate(ticket.ticketId._id, { $set: { quantity: +ticket.ticketId.quantity - 1 } }) // quantity - 1
+			await Ticket.findByIdAndUpdate(ticket.ticketId._id, { $inc: { quantity: -1 } }) // quantity - 1
 
 			await User.findByIdAndUpdate(user._id, { $pop: { shoppingCard: -1 } }) // pop each ticket from shopCard
+
 		})
 
 		await Order.findOneAndUpdate({ userId: user._id }, { $push: { ordersList: { order } } }) // Add new order into Order collection orderList
 
 		res.status(201).json({
 			statusMes: 'Order created',
-			message: `Purchase made successfully.
-			${price} coins withdrawn from you account.`
+			message: `Purchase made successfully.${price} coins withdrawn from you account.`
 		})
 	} catch (e) {
 		console.log(e);
@@ -91,7 +97,6 @@ async function buyShopCardTickets(req, res) {
 async function deleteFromShopCard(req, res) {
 	try {
 		const user = await User.findOne({ _id: req.headers['profile-id'] })
-
 		const { ticketId } = req.params
 
 		const ticketIndexInShopCard = user.shoppingCard.reduce((acc, ticket, index) => {
