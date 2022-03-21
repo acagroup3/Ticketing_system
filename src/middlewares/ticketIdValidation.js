@@ -26,6 +26,7 @@ async function isTicketIdValid(req, res, next) {
 			errorMes: 'No ticket with such ID.'
 		})
 		next('No ticket with such ID.')
+		return
 	}
 	// -------
 	// -> ID is valid -> send ticket to controller	
