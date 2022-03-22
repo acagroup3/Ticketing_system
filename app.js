@@ -24,7 +24,7 @@ const SwaggerOptions = swaggerJsdoc({
 			version: '1.0.0',
 		},
 	},
-	apis: ['routes/*.js'],
+	apis: ['./src/routers/*.js'],
 });
 
 app.use('/app-docs', swaggerUi.serve, swaggerUi.setup(SwaggerOptions));

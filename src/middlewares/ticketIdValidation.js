@@ -5,8 +5,9 @@ async function isTicketIdValid(req, res, next) {
 	const { ticketId } = req.params
 	const isIdValid = ticketId.length === 12 || ticketId.length === 24
 
+	console.log(isIdValid)
 	if (!isIdValid) {
-		res.status(400).json({
+		res.status(409).json({
 			error: 'ID does not match rules.',
 			errorMes: 'ID must be a string of 12 bytes or a string of 24 hex characters.'
 		})
@@ -22,7 +23,7 @@ async function isTicketIdValid(req, res, next) {
 	}
 
 	if (!ticket) { // ticket not exist 
-		res.status(400).json({
+		res.status(404).json({
 			errorMes: 'No ticket with such ID.'
 		})
 		next('No ticket with such ID.')
