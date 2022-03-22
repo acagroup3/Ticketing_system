@@ -8,8 +8,7 @@ const orderSchema = new Schema(
 				order: [
 					{ type: Schema.Types.ObjectId, ref: 'Ticket', _id: false },
 				],
-				date: { type: Date, default: Date.now() },
-				_id: false,
+				date: { type: Date, default: Date.now() }
 			},
 		],
 	},
