@@ -1,19 +1,40 @@
 const { Router } = require('express');
-const { getAllTickets } = require('../controllers/ticketsController');
 
-const router = Router();
+const ticketsController = require('../controllers/ticketsController');
+const ticketIdValidation = require('../middlewares/ticketIdValidation');
+const buyOneTicketOneTime = require('../middlewares/oneTicketOneTime');
+
+const ticketsRouter = Router();
 
 /**
  * @swagger
- * /profile/tickets:
+ * /tickets:
  *  get:
  *    summary: Returns a list of thickets
  *    description: Get all tickets
  *    tags: [Get all tickets]
- *    type: Array[Object]
+ *    operationId: findTicketByCountry
+ *    produces:
+ *    - application/json
+ *    - application/xml
+ *    parameters:
+ *    - name: filter
+ *      in: query
+ *      description: values that need for filtering
+ *      required: false
+ *      type: array
+ *      items:
+ *       type: string
+ *       enum:
+ *       - price
+ *       - name
+ *       - likeCount
+ *       - dislikeCount
+ *       default: price
+ *      collectionFormat: multi
  *    responses:
  *      200:
- *       description: Ok
+ *       description: Success
  *      404:
  *        description: Error
  *        content:
@@ -73,6 +94,31 @@ const router = Router();
  *                   description: Number of dislikes
  *                   example: 3
  */
-router.get('/', getAllTickets);
 
-module.exports = router;
+ticketsRouter
+	.get('/', ticketsController.getAllTickets)
+	.get(
+		'/:ticketId/comments',
+		ticketIdValidation,
+		ticketsController.getComments
+	)
+	.post(
+		'/:ticketId/comments',
+		ticketIdValidation,
+		ticketsController.addComment
+	)
+	.get(
+		'/:ticketId/_addToCard',
+		ticketIdValidation,
+		buyOneTicketOneTime,
+		ticketsController.addToShoppingCard
+	)
+	.get('/:id', ticketsController.getTicketDetails)
+	.post('/:id/_like', ticketsController.likeTicket)
+	.post('/:id/_buy', ticketsController.buyTicket);
+
+ticketsRouter.use((err, req, res, next) => {
+	console.log(err);
+});
+
+module.exports = ticketsRouter;
