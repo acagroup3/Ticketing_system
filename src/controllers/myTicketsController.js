@@ -20,25 +20,25 @@ async function createTicket(req, res) {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			res.status(400).json({ errors: errors.array() });
+		} else {
+			const ticket = new Ticket({
+				userId: req.headers['profile-id'],
+				name: req.body.name,
+				description: req.body.description,
+				date: req.body.date,
+				price: req.body.price,
+				quantity: req.body.quantity,
+				initialQuantity: req.body.quantity,
+				canCancel: req.body.canCancel,
+				cancelDate: req.body.cancelDate,
+				countries: req.body.countries,
+				likeCount: 0,
+				dislikeCount: 0,
+			});
+
+			await ticket.save();
+			res.status(201).json({ created: true });
 		}
-
-		const ticket = new Ticket({
-			userId: req.headers['profile-id'],
-			name: req.body.name,
-			description: req.body.description,
-			date: req.body.date,
-			price: req.body.price,
-			quantity: req.body.quantity,
-			initialQuantity: req.body.quantity,
-			canCancel: req.body.canCancel,
-			cancelDate: req.body.cancelDate,
-			countries: req.body.countries,
-			likeCount: 0,
-			dislikeCount: 0,
-		});
-
-		await ticket.save();
-		res.status(201).json({ created: true });
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({ error: 'Something went wrong.' });
@@ -69,7 +69,6 @@ async function editTicket(req, res) {
 async function deleteTicket(req, res) {
 	try {
 		const cutTicket = await Ticket.findById(req.params.id);
-
 
 		if (cutTicket.quantity === cutTicket.initialQuantity) {
 			await Ticket.findByIdAndDelete(req.params.id);
