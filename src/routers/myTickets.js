@@ -11,6 +11,11 @@ router
 		validateTicketData.validateName,
 		validateTicketData.validateDescription,
 		validateTicketData.validateDate,
+		validateTicketData.validatePrice,
+		validateTicketData.validateQuantity,
+		validateTicketData.validatecanCancel,
+		// validateTicketData.validateCancelDate,
+		validateTicketData.validateCountry,
 		myTicketsController.createTicket
 	)
 	.patch(

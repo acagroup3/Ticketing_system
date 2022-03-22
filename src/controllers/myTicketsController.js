@@ -1,25 +1,29 @@
 const { validationResult } = require('express-validator');
 const Ticket = require('../models/ticket');
 
+// Get all tickets created by user
 async function getMyTickets(req, res) {
 	try {
-		Ticket.find(
-			{ userId: req.headers['profile-id'] },
-			(err, ticketList) => {
-				res.send(ticketList);
-			}
-		);
+		const ticketList = await Ticket.find({ userId: req.headers['profile-id'] })
+		res.send(ticketList);
 	} catch (err) {
 		console.log(err);
-		res.status(500).json({ error: 'something went wrong' });
+		res.status(500).json({ error: 'Something went wrong.' });
 	}
 }
 
+// Create new tickets
 async function createTicket(req, res) {
 	try {
+		// Ticket data validation result
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			res.status(400).json({ errors: errors.array() });
+		}
+
+		// if canCancel is false then we don't need cancel date at all
+		if(req.body.canCancel === "false"){
+			req.body.cancelDate = undefined;
 		}
 
 		const ticket = new Ticket({
@@ -39,11 +43,13 @@ async function createTicket(req, res) {
 
 		await ticket.save();
 		res.status(201).json({ created: true });
+
 	} catch (err) {
 		console.log(err);
-		res.status(500).json({ error: 'Something went wrong.' });
+		// res.status(500).json({ error: 'Something went wrong.' });
 	}
 }
+
 async function editTicket(req, res) {
 	try {
 		const ticket = await Ticket.findByIdAndUpdate(req.params.id, req.body, {
