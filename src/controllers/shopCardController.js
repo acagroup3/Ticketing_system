@@ -6,11 +6,6 @@ async function getShopCard(req, res) {
 	try {
 		const user = await User.findOne({ _id: req.headers['profile-id'] })
 
-		if (user.shoppingCard.length === 0) {// Do we have tickets in the shopping card
-			res.json({ message: `You don't have tickets in the shopping card.` })
-			return
-		}
-
 		const totalPrice = user.shoppingCard.reduce((acc, ticket) => {// calculate total price
 			return acc + ticket.price
 		}, 0)
@@ -28,17 +23,39 @@ async function getShopCard(req, res) {
 	};
 }
 
+async function emptyShopCard(req, res) {
+	try {
+		const user = await User.findOne({ _id: req.headers['profile-id'] })
+
+		if (user.shoppingCard.length === 0) {
+			res.send('Your shopping card is already empty.')
+			return
+		}
+
+		user.shoppingCard = []
+		user.save()
+
+		res.send('Your shopping card has been emptied.')
+	} catch (e) {
+		console.log(e);
+		res.status(500).json({
+			message: 'A server-side error occurred',
+			errorMes: e.message
+		});
+	};
+}
+
 async function buyShopCardTickets(req, res) {
 	try {
 		const user = await User.findOne({ _id: req.headers['profile-id'] })
 
 		if (user.shoppingCard.length === 0) {
-			res.json({ message: "You don't have tickets in the shopping card." })
+			res.send(`You don't have tickets in the shopping card.`)
 			return
 		}
 
 		const price = user.shoppingCard.reduce((acc, ticket) => acc += +ticket.price, 0)
-		if (user.coins < price) { // Do we have enough money?
+		if (user.coins < price) { // Do we have enough coins?
 			res.status(400).json({
 				error: 'Purchase failed!',
 				message: `You need ${price} coins to buy all tickets.Your balance: ${user.coins}`
@@ -115,31 +132,7 @@ async function deleteFromShopCard(req, res) {
 		user.shoppingCard.splice(ticketIndexInShopCard, 1) // Remove ticket from shoppingCard
 		user.save()
 
-		res.json({
-			message: `Ticket with ID(${ticketId}) has been successfully removed from your shopping card.`
-		})
-	} catch (e) {
-		console.log(e);
-		res.status(500).json({
-			message: 'A server-side error occurred',
-			errorMes: e.message
-		});
-	};
-}
-
-async function emptyShopCard(req, res) {
-	try {
-		const user = await User.findOne({ _id: req.headers['profile-id'] })
-
-		if (user.shoppingCard.length === 0) {
-			res.send('Your shopping card is already empty.')
-			return
-		}
-
-		user.shoppingCard = []
-		user.save()
-
-		res.send('Your shopping card has been emptied.')
+		res.send(`Ticket with ID(${ticketId}) has been successfully removed from your shopping card.`)
 	} catch (e) {
 		console.log(e);
 		res.status(500).json({
