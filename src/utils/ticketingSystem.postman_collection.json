@@ -69,7 +69,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Frank\",\r\n    \"lastName\": \"Smith\",\r\n    \"country\": \"USA\",\r\n    \"email\": \"franksmith@gmail.com\",\r\n    \"password\": \"22446688\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Frank\",\r\n    \"lastName\": \"Smith\",\r\n    \"country\": \"United States\",\r\n    \"email\": \"franksmith@gmail.com\",\r\n    \"password\": \"22446688\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -142,6 +142,35 @@
 						},
 						"url": {
 							"raw": "localhost:3000/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend verification link",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"mikeowen@gmail.com\",\r\n    \"password\": \"11112222\",\r\n    \"resend-verification-link\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/login",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
@@ -238,18 +267,6 @@
 		}
 	],
 	"variable": [
-		{
-			"key": "profile-id",
-			"value": "622fae3d3d421a10efb3f3a6"
-		},
-		{
-			"key": "access-token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMjRkMmFhNTAwZDg2NjJmZjFhMTkxIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlh..."
-		},
-		{
-			"key": "refresh-token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjIzMjRkMmFhNTAwZDg2NjJmZjFhMTkxIiwiZW1haWwiOiJhY2Ffbm9kZV9ncm91cDNAbWFpbC5ydSIsImlh..."
-		},
 		{
 			"key": "verification-token",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzNzFiNWUyMTM3ZTE5Mzg5NWExZDg3IiwiaWF0IjoxNjQ3Nzc4NjU0LCJleHAiOjE2NDc4MDAyNTR9.J1vpgMb-h5nkqEQyQww_rwo5Ms7h9pYRsZH3HuHfKHQ"

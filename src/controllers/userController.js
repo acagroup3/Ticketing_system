@@ -14,10 +14,9 @@ exports.getProfileData = async (req, res) => {
 			});
 		}
 
-		return res.status(404).send('Profile not found in base');
+		return res.status(500).send('Failed to response profile data');
 	} catch (e) {
-		console.log(e);
-		return res.status(500).send('Server side error');
+		return res.status(500).send('Failed to response profile data');
 	}
 };
 
@@ -34,9 +33,8 @@ exports.logout = async (req, res) => {
 			return res.status(200).send('Logout successfully completed');
 		}
 
-		return res.status(404).send('Profile not found in base');
+		return res.status(500).send('Failed to logout');
 	} catch (e) {
-		console.log(e);
-		return res.status(500).send('Server side error');
+		return res.status(500).send('Failed to logout');
 	}
 };

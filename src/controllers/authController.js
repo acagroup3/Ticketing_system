@@ -1,3 +1,4 @@
+// Models
 const User = require('../models/user');
 const Order = require('../models/order');
 
@@ -12,7 +13,6 @@ exports.addUser = async (req, res) => {
 		// Check if a user with given email exists in base
 		const oldUser = await User.findOne({ email: req.body.email });
 		if (oldUser !== null) {
-			// 409 _ Conflict
 			return res
 				.status(409)
 				.send('User with given email already exists.');
@@ -33,33 +33,40 @@ exports.addUser = async (req, res) => {
 		});
 		await user.save();
 
-		// Create verification token
-		const verificationToken = await JWTHandler.createVerificationToken(
-			user._id
-		);
-		user.verificationToken = verificationToken;
-		await user.save();
+		// Processes after creating user profile
+		try {
+			// Create verification token
+			const verificationToken = await JWTHandler.createVerificationToken(
+				user._id
+			);
+			user.verificationToken = verificationToken;
+			await user.save();
 
-		// Reading verify.pug file
-		const htmlText = await convertPugToHTML('verify.pug', {
-			name: user.firstName,
-			token: verificationToken,
-		});
+			// Reading verify.pug file
+			const htmlText = await convertPugToHTML('verify.pug', {
+				name: user.firstName,
+				token: verificationToken,
+			});
 
-		// Send verification link to user's email address
-		await sendVerificationMail(htmlText, 'aca_node_group3@mail.ru');
-		// await sendVerificationMail(htmlText, req.body.email);
+			// Send verification link to user's email address
+			await sendVerificationMail(htmlText, 'aca_node_group3@mail.ru');
+			// await sendVerificationMail(htmlText, req.body.email);	
+		} catch(e) {
+			return res
+				.status(207)
+				.send(
+					'Account successfully registered, but failed to send verification email'
+				);
+		};
 
-		// 201 _ Created
+		// Everything is OK
 		return res
 			.status(201)
 			.send(
-				'Account successfully registered. Verification link is sent to your email'
+				'Account successfully registered. Verification link is sent to your email address'
 			);
 	} catch (e) {
-		console.log(e);
-		// 500 _ Internal server errors
-		return res.status(500).send('A server-side error occured');
+		return res.status(500).send('Failed to register');
 	}
 };
 
@@ -74,10 +81,10 @@ exports.verifyUser = async (req, res) => {
 		if (tokenData.body === null) {
 			if (tokenData.errorMessage === 'TokenExpiredError') {
 				return res
-					.status(404)
+					.status(401)
 					.send('Verification token date is expired');
 			}
-			return res.status(404).send('Verification token is not valid');
+			return res.status(401).send('Verification token is not valid');
 		}
 
 		// If verification token is valid
@@ -89,11 +96,16 @@ exports.verifyUser = async (req, res) => {
 				.send(
 					'Verification token is valid, but user data can not be found in database'
 				);
-		}
+		};
 
 		if (user !== null && user.isVerified === true) {
 			return res.status(409).send('Accaunt is already verified');
-		}
+		};
+
+		// If verification token in request is not the same as in database
+		if (req.params.verificationToken !== user.verificationToken) {
+			return res.status(401).send('Wrong verification token');
+		};
 
 		// If everything is OK
 		if (user !== null && user.isVerified === false) {
@@ -106,18 +118,21 @@ exports.verifyUser = async (req, res) => {
 			await user.save();
 
 			// Create empty order document for user
-			const order = new Order({
-				userId: user._id,
-			});
-			await order.save();
+			try {				
+				const order = new Order({
+					userId: user._id,
+				});
+				await order.save();
+			} catch(e) {
+				return res.status(207).send('Accaunt successfully verified, but failed to create order document for user');
+			};			
 
 			return res.status(200).send('Accaunt successfully verified');
-		}
+		};
 
-		return res.status(404).send('Verification failed');
+		return res.status(500).send('Verification failed due to an error on the server');
 	} catch (e) {
-		console.log(e);
-		return res.status(500).send('A server-side error occured');
+		return res.status(500).send('Verification failed due to an error on the server');
 	}
 };
 
@@ -127,7 +142,7 @@ exports.login = async (req, res) => {
 		const user = await User.findOne({ email: req.body.email });
 
 		if (user === null) {
-			return res.status(404).send('Wrong email or password');
+			return res.status(401).send('Wrong email or password');
 		}
 
 		// Comparing password
@@ -137,19 +152,18 @@ exports.login = async (req, res) => {
 		);
 
 		if (passwordIsCorrect === false) {
-			return res.status(404).send('Wrong email or password');
+			return res.status(401).send('Wrong email or password');
 		}
 
 		if (passwordIsCorrect === true) {
-			if (user.isVerified === false) {
-				return res
-					.status(200)
-					.send(
-						'User is not verified. Please make verification via email'
-					);
-			}
+
 			if (user.isVerified === true) {
-				// Create token
+
+				if (req.body['resend-verification-link'] === true) {
+					return res.status(409).send('User profile is already verified');
+				};
+
+				// Create tokens
 				const accessToken = await JWTHandler.createAccessToken(
 					user._id
 				);
@@ -165,11 +179,47 @@ exports.login = async (req, res) => {
 					'access-token': user.accessToken,
 					'refresh-token': user.refreshToken,
 				});
-			}
-		}
-		return res.status(404).send('Authentication failed');
+			};
+
+			if (user.isVerified === false) {
+
+				// Send new verification link to email
+				if (req.body['resend-verification-link'] === true) {
+					try {
+						console.log('aaa')
+						// Create new verification token
+						const verificationToken = await JWTHandler.createVerificationToken(
+							user._id
+						);
+						user.verificationToken = verificationToken;
+						await user.save();
+
+						// Reading verify.pug file
+						const htmlText = await convertPugToHTML('verify.pug', {
+							name: user.firstName,
+							token: verificationToken,
+						});
+
+						// Send new verification link to user's email address
+						await sendVerificationMail(htmlText, 'aca_node_group3@mail.ru');
+						// await sendVerificationMail(htmlText, req.body.email);
+
+						return res.status(200).send('New verification link is sent to your email address');
+					} catch(e) {
+						return res.status(500).send('Failed to send verification link');
+					}
+				};
+
+				return res
+					.status(401)
+					.send(
+						'User is not verified. Please make verification via email'
+					);
+			};			
+		};
+
+		return res.status(500).send('Authentication failed due to an error on the server');
 	} catch (e) {
-		console.log(e);
-		return res.status(500).send('A server-side error occured');
+		return res.status(500).send('Authentication failed due to an error on the server');
 	}
 };

@@ -14,10 +14,10 @@ module.exports = async (req, res, next) => {
 			if (tokenData.body === null) {
 				if (tokenData.errorMessage === 'TokenExpiredError') {
 					return res
-						.status(404)
+						.status(401)
 						.send('Refresh token date is expired');
 				}
-				return res.status(404).send('Refresh token is not valid');
+				return res.status(401).send('Refresh token is not valid');
 			}
 
 			// If refresh token is valid
@@ -26,21 +26,12 @@ module.exports = async (req, res, next) => {
 			});
 
 			if (user === null) {
-				return res.status(404).send('Wrong refresh token');
-			}
-
-			// If refresh-token in request is not the same as in database
-			if (req.headers['refresh-token'] !== user.refreshToken) {
-				return res.status(404).send('Wrong refresh-token');
-			}
-
-			if (user === null) {
-				return res.status(404).send('Wrong refresh token');
+				return res.status(401).send('Wrong refresh token');
 			}
 
 			// If refresh token in request is not the same as in database
 			if (req.headers['refresh-token'] !== user.refreshToken) {
-				return res.status(404).send('Wrong refresh token');
+				return res.status(401).send('Wrong refresh token');
 			}
 
 			// Everything is OK
@@ -65,17 +56,14 @@ module.exports = async (req, res, next) => {
 						'refresh-token': user.refreshToken,
 					});
 				} catch (e) {
-					console.log(e);
-					console.log(
-						'An error occured while creating new tokens for user'
-					);
+					return res.status(500).send('Failed to update access-token and refresh-token');
 				}
-			}
+			};
 
 			return res
-				.status(404)
-				.send('verifyJWT test not passed for refresh-token');
-		}
+				.status(500)
+				.send('Failed to complete verifyJWT test');
+		};
 
 		// Requests with access-token
 		if (req.headers['access-token']) {
@@ -87,9 +75,9 @@ module.exports = async (req, res, next) => {
 			// If access token is not valid
 			if (tokenData.body === null) {
 				if (tokenData.errorMessage === 'TokenExpiredError') {
-					return res.status(404).send('Access token date is expired');
+					return res.status(401).send('Access token date is expired');
 				}
-				return res.status(404).send('Access token is not valid');
+				return res.status(401).send('Access token is not valid');
 			}
 
 			// If access token is valid
@@ -98,12 +86,12 @@ module.exports = async (req, res, next) => {
 			});
 
 			if (user === null) {
-				return res.status(404).send('Wrong access token');
+				return res.status(401).send('Wrong access token');
 			}
 
 			// If access token in request is not the same as in database
 			if (req.headers['access-token'] !== user.accessToken) {
-				return res.status(404).send('Wrong access token');
+				return res.status(401).send('Wrong access token');
 			}
 
 			// Everything is OK
@@ -113,20 +101,20 @@ module.exports = async (req, res, next) => {
 			}
 
 			return res
-				.status(404)
-				.send('verifyJWT test not passed for access-token');
+				.status(500)
+				.send('Failed to complete verifyJWT test');
 		}
 
 		// Requests without tokens
 		if (!req.headers['access-token']) {
 			return res
-				.status(404)
+				.status(400)
 				.send('access-token is not set in request header');
 		}
 
-		return res.status(404).send('verifyJWT test not passed!');
+		return res.status(500).send('Failed to complete verifyJWT test');
 	} catch (e) {
 		console.log(e);
-		return res.status(404).send('verifyJWT test not passed!');
+		return res.status(500).send('Failed to complete verifyJWT test');
 	}
 };
