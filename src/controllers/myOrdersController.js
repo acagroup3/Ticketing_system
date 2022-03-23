@@ -19,6 +19,7 @@ async function getMyOrder(req, res) {
 	try {
 		const order = await Order.findOne({ userId: req.headers['profile-id']},
 										  {ordersList: {$elemMatch: {_id: req.params.orderId }}}); 
+
 		res.send(order.ordersList[0]);
 
 	} catch (err) {
@@ -44,16 +45,26 @@ async function cancelTicket(req, res) {
 			await User.findByIdAndUpdate(userId, {coins: (user.coins + ticket.price)});
 			
 			// deleting ticket from order, or deliting order if it contains only one ticket
-			// if(order.ordersList.length === 1){
-			// 		Order.deleteOne({_id: orderId}); ///????
-			// }
-			// TODO: query is not correct
-			const canceledOrder = await Order.findByIdAndUpdate(userId, {ordersList: {$pull: {_id: orderId }}});
-			console.log("updated orders: ", canceledOrder);
-			res.status(201).json({ cancelled: 'success' });
-		}
-				
+			const orders = await Order.findOne({userId: req.headers['profile-id']});
+			
+			for(let i = 0; i < orders.ordersList.length; i += 1) {
+				if(JSON.stringify(orders.ordersList[i]._id) === JSON.stringify(orderId)){
+					if(orders.ordersList[i].order.length === 1){
+						orders.ordersList.splice(i, 1);
+						break;
+					}
+					else{
+						const index = orders.ordersList[i].order
+						.findIndex(ticketToDelete => JSON.stringify(ticketToDelete) === JSON.stringify(ticketId));
+						orders.ordersList[i].order.splice(index, 1);
+						break;
+					}
+				}
+			}
+			await orders.save();
 
+			res.status(204).json({ cancelled: 'success' });
+		}
 
 	} catch (err) {
 		console.log(err);

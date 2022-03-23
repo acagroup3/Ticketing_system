@@ -20,7 +20,14 @@ async function createTicket(req, res) {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			res.status(400).json({ errors: errors.array() });
-		} else {
+		} 
+		else {
+			// if ticket cancelation is not available, then we don't 
+			// need cancel date in a document at all 
+			if(req.body.canCancel === "false"){
+				req.body.cancelDate = undefined;
+			}
+
 			const ticket = new Ticket({
 				userId: req.headers['profile-id'],
 				name: req.body.name,
