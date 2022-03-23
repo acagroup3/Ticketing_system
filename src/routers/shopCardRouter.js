@@ -10,6 +10,12 @@ const shopCardRouter = Router()
  * components:
  *   tags:
  *    - name: ShoppingCard
+ *   securitySchemes:
+ *     access-token:      
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT 
+ * 
  */
 
 /**
@@ -53,6 +59,7 @@ const shopCardRouter = Router()
  *          schema:    
  *            type: string
  *            example: Access token is not valid 
+ *   
  */
 
 shopCardRouter.get('/', shopCardController.getShopCard)
@@ -128,7 +135,7 @@ shopCardRouter.delete('/', shopCardController.emptyShopCard)
  *                type: string
  *            example:   
  *              error: Purchase failed!
- *              message: You need ??? coins to buy all tickets.Your balance ??? coins
+ *              message: (You need ??? coins to buy all tickets.Your balance ??? coins.) OR (You have ticket(s) in your shopping card that are already out of stock.)
  *     401:
  *       description: Unauthorized
  *       content:
@@ -149,7 +156,7 @@ shopCardRouter.get('/_buy', shopCardController.buyShopCardTickets)
 
 /**
  * @swagger
- * /shopping-card/:ticketId:
+ * /shopping-card/{ticketId}:
  *  delete:
  *   tags: [ShoppingCard]
  *   description: Remove ticket with ID [ticketID] from shopping card.
@@ -158,7 +165,7 @@ shopCardRouter.get('/_buy', shopCardController.buyShopCardTickets)
  *     in: path
  *     description: Id of the ticket what need to be deleted.
  *     required: true
- *     type: string
+ *     type: id
  *   - name: access-token
  *     in: header
  *     description: an authorization header
@@ -186,13 +193,27 @@ shopCardRouter.get('/_buy', shopCardController.buyShopCardTickets)
  *            example:   
  *              error: Deleting failed!
  *              message: There is no ticket with such ID in your shopping card
- *     404:
- *       description: Error:Not Found
+ *     401:
+ *       description: Unauthorized
  *       content:
  *         text/plain:
  *          schema:    
  *            type: string
- *            example: Access token is not valid 
+ *            example: Access-token is not set in request header 
+ *     404:
+ *       description: Error:Not found.
+ *       content:
+ *         application/json:
+ *          schema:   
+ *            type: object
+ *            properties:
+ *              error:
+ *                type: string
+ *              errorMes:
+ *                type: string
+ *            example:   
+ *              error: Non-existent ID.
+ *              errorMes: Ticket with such ID does not exist.
  *     409:
  *       description: Conflict.ID does not match rules.
  *       content:

@@ -91,9 +91,7 @@ exports.addToShoppingCard = async (req, res) => {
 		})
 		user.save()
 
-		res.json({
-			message: 'The ticket has been successfully added to your Shopping Card.'
-		})
+		res.send('The ticket has been successfully added to your Shopping Card.')
 	} catch (e) {
 		console.log(e);
 		res.status(500).json({

@@ -64,20 +64,18 @@ async function buyShopCardTickets(req, res) {
 		}
 
 		const { shoppingCard } = await User.findOne({ _id: req.headers['profile-id'] }).populate('shoppingCard.ticketId')
-		const outOfStockTickets = shoppingCard.reduce((acc, ticket) => { // Find tickets that are already out of stock.
+		const outOfStockTicketsId = shoppingCard.reduce((acc, ticket) => { // Find tickets that are already out of stock.
 			if (ticket.ticketId.quantity === 0) {
 				acc.push(ticket.ticketId._id)
 			}
 			return acc
 		}, [])
 
-		if (outOfStockTickets.length !== 0) {
+		if (outOfStockTicketsId.length !== 0) {
 			res.status(400).json({
 				error: 'Purchase failed!',
 				message: 'You have ticket(s) in your shopping card that are already out of stock.',
-				tickets: JSON.stringify({
-					outOfStockTickets
-				})
+				outOfStockTicketsId
 			})
 			return
 		}
