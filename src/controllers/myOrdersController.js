@@ -45,6 +45,7 @@ async function cancelTicket(req, res) {
 			await User.findByIdAndUpdate(userId, {coins: (user.coins + ticket.price)});
 			
 			// deleting ticket from order, or deliting order if it contains only one ticket
+			// and decreasing total price of order
 			const orders = await Order.findOne({userId: req.headers['profile-id']});
 			
 			for(let i = 0; i < orders.ordersList.length; i += 1) {
@@ -57,6 +58,7 @@ async function cancelTicket(req, res) {
 						const index = orders.ordersList[i].order
 						.findIndex(ticketToDelete => JSON.stringify(ticketToDelete) === JSON.stringify(ticketId));
 						orders.ordersList[i].order.splice(index, 1);
+						orders.ordersList[i].order.totalPrice -= ticket.price;
 						break;
 					}
 				}

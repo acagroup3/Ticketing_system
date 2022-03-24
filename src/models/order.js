@@ -8,6 +8,7 @@ const orderSchema = new Schema(
 				order: [
 					{ type: Schema.Types.ObjectId, ref: 'Ticket', _id: false },
 				],
+				totalPrice: { type: Number, required: true},
 				date: { type: Date, default: Date.now() }
 			},
 		],
