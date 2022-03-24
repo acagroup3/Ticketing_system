@@ -235,9 +235,9 @@ router.route('/verify/:verificationToken').get(authController.verifyUser);
  *	   content:
  *	    application/json:
  *	     schema:
- *	      oneOf:
- *	       - $ref: '#/components/schemas/ResendVerificationLinkSchema'   
+ *	      oneOf:   
  *	       - $ref: '#/components/schemas/UserLoginSchema'   
+ *	       - $ref: '#/components/schemas/ResendVerificationLinkSchema'
  *	    application/x-www-form-urlencoded:
  *	     schema:
  *	      $ref: '#/components/schemas/UserLoginSchema'

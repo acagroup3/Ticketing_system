@@ -23,13 +23,9 @@ const shopCardRouter = Router()
  * /shopping-card:
  *  get:
  *   tags: [ShoppingCard]
+ *   security:
+ *    - access-token: []
  *   description: Tickets that have been added to shopping card.
- *   parameters:
- *   - name: access-token
- *     in: header
- *     description: an authorization header
- *     required: true
- *     type: string
  *   responses:
  *     200:
  *       description: Tickets in the shopping card and total price.
@@ -69,13 +65,9 @@ shopCardRouter.get('/', shopCardController.getShopCard)
  * /shopping-card:
  *  delete:
  *   tags: [ShoppingCard]
+ *   security:
+ *    - access-token: []
  *   description: Empty shopping card.
- *   parameters:
- *   - name: access-token
- *     in: header
- *     description: an authorization header
- *     required: true
- *     type: string
  *   responses:
  *     200:
  *       description: Shopping card has been emptied.
@@ -107,13 +99,9 @@ shopCardRouter.delete('/', shopCardController.emptyShopCard)
  * /shopping-card/_buy:
  *  get:
  *   tags: [ShoppingCard]
+ *   security:
+ *    - access-token: []
  *   description: Buy all tickets in shopping card.
- *   parameters:
- *   - name: access-token
- *     in: header
- *     description: an authorization header
- *     required: true
- *     type: string
  *   responses:
  *     200:
  *       description: Your shopping card is empty.
@@ -159,6 +147,8 @@ shopCardRouter.get('/_buy', shopCardController.buyShopCardTickets)
  * /shopping-card/{ticketId}:
  *  delete:
  *   tags: [ShoppingCard]
+ *   security:
+ *    - access-token: []
  *   description: Remove ticket with ID [ticketID] from shopping card.
  *   parameters:
  *   - name: ticketId
@@ -166,11 +156,6 @@ shopCardRouter.get('/_buy', shopCardController.buyShopCardTickets)
  *     description: Id of the ticket what need to be deleted.
  *     required: true
  *     type: id
- *   - name: access-token
- *     in: header
- *     description: an authorization header
- *     required: true
- *     type: string
  *   responses:
  *     200:
  *       description: Ticket has been removed.

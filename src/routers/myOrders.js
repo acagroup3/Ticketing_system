@@ -18,9 +18,11 @@ const router = Router();
 
 /**
  * @swagger
- * /my-orders:
+ * /profile/my-orders:
  *  get:
  *   tags: [Orders]
+ *   security:
+ *    - access-token: []
  *   description: User orders list, total price and date for each order.
  *   responses:
  *     200:
@@ -64,9 +66,11 @@ const router = Router();
 
 /**
  * @swagger
- * /my-orders/orderId:
+ * /profile/my-orders/:orderId:
  *  get:
  *   tags: [Orders]
+ *   security:
+ *    - access-token: []
  *   description: One order details, tickets list, prices, orderDate, totalPrice.
  *   parameters:
  *   - name: orderId
@@ -118,9 +122,11 @@ const router = Router();
 
 /**
  * @swagger
- * /my-orders/orderId/ticketId:
+ * /profile/my-orders/:orderId/:ticketId:
  *  delete:
  *   tags: [Orders]
+ *   security:
+ *    - access-token: []
  *   description: Ticket cancelation.
  *   parameters:
  *   - name: orderId
