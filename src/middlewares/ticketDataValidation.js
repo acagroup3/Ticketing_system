@@ -33,12 +33,21 @@ const validateCancelDate =
 	// TODO: isBefore doesn't work as expected, it's always returns error
 	// .isBefore("date").withMessage("Cancel date must be before ticket date.");
 
+const isBefore = (req, res, next) => {
+	if(req.body.date < req.body.cancelDate){
+		res.status(400).json({ error: "Cancel date must be before ticket date." });
+		next("Cancel date must be before ticket date.");
+	}
+	next();
+}
+
 const validateCountry = (req, res, next) => {
 	const countries = req.body.countries.split(", ");
 	// eslint-disable-next-line no-restricted-syntax
 	for (const country of countries) {
 		if(!countryNames.includes(country)){
 			res.status(400).json({ error: "Country name is incorrect." });
+			next("Country name is incorrect.");
 		}
 	  }
 	req.body.countries = countries;
@@ -54,5 +63,6 @@ module.exports = {
 	validateQuantity,
 	validatecanCancel,
 	validateCancelDate,
+	isBefore,
 	validateCountry
 };
