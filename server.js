@@ -12,8 +12,8 @@ const DB = process.env.DATABASE.replace(
 async function startServer() {
 	try {
 		await mongoose
-			.connect(process.env.DATABASE_LOCAL)
-			// .connect(DB)
+			// .connect(process.env.DATABASE_LOCAL)
+			.connect(DB)
 			.then(() => {});
 
 		// start server
