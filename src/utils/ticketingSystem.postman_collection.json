@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8e389136-8d6c-463a-8c31-09a744c92490",
+		"_postman_id": "316b02de-a5f4-42cb-a7a3-26ef2f27512c",
 		"name": "ticketingSystem",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -194,8 +194,8 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "access-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzNzFiMGEyMTM3ZTE5Mzg5NWExZDdkIiwiaWF0IjoxNjQ3Nzc4NzUxLCJleHAiOjE2NDc3ODU5NTF9.9rs_o-A1qK0sTmjpMkr_Q1UiCwInmKmjfJ6okILyVjQ",
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzYzZiMTc1MDFmODg0ZmRiODRiMjU1IiwiaWF0IjoxNjQ4MTMzMjg3LCJleHAiOjE2NDgxNDA0ODd9.a0FdCi-ZMM3b8NEYWm-Q5jXfrHkG55VAbLAQIhK7B10",
 								"type": "text"
 							}
 						],
@@ -219,8 +219,8 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "refresh-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzNzFiMGEyMTM3ZTE5Mzg5NWExZDdkIiwiaWF0IjoxNjQ3Nzc4NzI2LCJleHAiOjE2NTgxNDY3MjZ9.lMP1VgoIqObUC6Dgs1ddEwZEDW399RFM4Hvsj30uUKg",
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzYzZiMTc1MDFmODg0ZmRiODRiMjU1IiwiaWF0IjoxNjQ4MTMzMjg3LCJleHAiOjE2NTg1MDEyODd9.hfSEfNjWZtqM0KrL4WrDDlFQMDEgELsYQrX_fOLiCeY",
 								"type": "text"
 							}
 						],
@@ -244,8 +244,8 @@
 						"method": "GET",
 						"header": [
 							{
-								"key": "access-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzNzFiMGEyMTM3ZTE5Mzg5NWExZDdkIiwiaWF0IjoxNjQ3Nzc4NzUxLCJleHAiOjE2NDc3ODU5NTF9.9rs_o-A1qK0sTmjpMkr_Q1UiCwInmKmjfJ6okILyVjQ",
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzYzZiMTc1MDFmODg0ZmRiODRiMjU1IiwiaWF0IjoxNjQ4MTMzNTE4LCJleHAiOjE2NDgxNDA3MTh9.SXq8oz25KnXoXbR_nHOIXdhWXJZyPw2pQidTm-cUYRQ",
 								"type": "text"
 							}
 						],
