@@ -15,7 +15,7 @@ exports.addUser = async (req, res) => {
 		if (oldUser !== null) {
 			return res
 				.status(409)
-				.send('User with given email already exists.');
+				.send('User with given email already exists');
 		}
 
 		// Hashing passwords
