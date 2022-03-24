@@ -81,6 +81,7 @@ async function buyShopCardTickets(req, res) {
 		}
 
 		const order = []
+		console.log(price)
 		shoppingCard.forEach(async function (ticket) {
 			order.push(ticket.ticketId._id.toString()) // Save ticketId 
 
@@ -94,7 +95,7 @@ async function buyShopCardTickets(req, res) {
 
 		})
 
-		await Order.findOneAndUpdate({ userId: user._id }, { $push: { ordersList: { order } } }) // Add new order into Order collection orderList
+		await Order.findOneAndUpdate({ userId: user._id }, { $push: { ordersList: { order, totalPrice: price } } }) // Add new order into Order collection orderList
 
 		res.status(201).json({
 			statusMes: 'Order created',
