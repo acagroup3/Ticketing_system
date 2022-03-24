@@ -5,6 +5,7 @@ module.exports = async (filename, paramsObj) => {
 	const htmlText = compiledFunction({
 		name: paramsObj.name,
 		token: paramsObj.token,
+		host: paramsObj.host
 	});
 	return htmlText;
 };

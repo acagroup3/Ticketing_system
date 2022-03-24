@@ -43,14 +43,28 @@ exports.addUser = async (req, res) => {
 			await user.save();
 
 			// Reading verify.pug file
-			const htmlText = await convertPugToHTML('verify.pug', {
-				name: user.firstName,
-				token: verificationToken,
-			});
+			let htmlText;
+			if (process.env.NODE_ENV === 'development') {
+				htmlText = await convertPugToHTML('verify.pug', {
+					name: user.firstName,
+					token: verificationToken,
+					host: 'http://127.0.0.1:3000'
+				});
+			} else {
+				htmlText = await convertPugToHTML('verify.pug', {
+					name: user.firstName,
+					token: verificationToken,
+					host: `${process.env.HOST}:${process.env.PORT}`
+				});
+			};			
 
 			// Send verification link to user's email address
-			await sendVerificationMail(htmlText, 'aca_node_group3@mail.ru');
-			// await sendVerificationMail(htmlText, req.body.email);	
+			if (process.env.NODE_ENV === 'development') {
+				await sendVerificationMail(htmlText, 'aca_node_group3@mail.ru');
+			} else {
+				await sendVerificationMail(htmlText, req.body.email);
+			};			
+			
 		} catch(e) {
 			return res
 				.status(207)
@@ -195,14 +209,27 @@ exports.login = async (req, res) => {
 						await user.save();
 
 						// Reading verify.pug file
-						const htmlText = await convertPugToHTML('verify.pug', {
-							name: user.firstName,
-							token: verificationToken,
-						});
+						let htmlText;
+						if (process.env.NODE_ENV === 'development') {
+							htmlText = await convertPugToHTML('verify.pug', {
+								name: user.firstName,
+								token: verificationToken,
+								host: 'http://127.0.0.1:3000'
+							});
+						} else {
+							htmlText = await convertPugToHTML('verify.pug', {
+								name: user.firstName,
+								token: verificationToken,
+								host: `${process.env.HOST}:${process.env.PORT}`
+							});
+						};			
 
-						// Send new verification link to user's email address
-						await sendVerificationMail(htmlText, 'aca_node_group3@mail.ru');
-						// await sendVerificationMail(htmlText, req.body.email);
+						// Send verification link to user's email address
+						if (process.env.NODE_ENV === 'development') {
+							await sendVerificationMail(htmlText, 'aca_node_group3@mail.ru');
+						} else {
+							await sendVerificationMail(htmlText, req.body.email);
+						};		
 
 						return res.status(200).send('New verification link is sent to your email address');
 					} catch(e) {
