@@ -1,0 +1,903 @@
+{
+	"info": {
+		"_postman_id": "c08ad51d-29d0-4b76-a584-7c207811134a",
+		"name": "Ticketing_System testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "/auth/register(form)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstName",
+									"value": "Mike",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Owen",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "England",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "aca_node_group3@mail.ru",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "11112222",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/register(JSON)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Frank\",\r\n    \"lastName\": \"Smith\",\r\n    \"country\": \"United States\",\r\n    \"email\": \"nodejs.project.group3@gmail.com\",\r\n    \"password\": \"22446688\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register John Doe"
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/verity/verificationToken",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/verify/{{verification_token}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"verify",
+								"{{verification_token}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/login(form)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "aca_node_group3@mail.ru",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "11112222",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth/login(JSON)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"aca_node_group3@mail.ru\",\r\n    \"password\": \"11112222\",\r\n    \"resend-verification-link\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "/profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile (refresh)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFjNDYzOTc3NDNjMzczNzY2MTE5IiwiaWF0IjoxNjQ4MjEwODY2LCJleHAiOjE2NTg1Nzg4NjZ9.-rt58s7YfbaQP7BCkfj6MI4DDn73DDKqJ3mAkRnL1c0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile/logout",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/profile/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "/my-orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/profile/my-orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile",
+								"my-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/my-orders/orderId",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "profile-id",
+								"value": "6234b8871ba1a75a9e029e5b",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/profile/my-orders/623e0faae2c738e92ad48dd2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile",
+								"my-orders",
+								"623e0faae2c738e92ad48dd2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/my-orders/orderId/ticketId",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "profile-id",
+								"value": "6234b8871ba1a75a9e029e5b",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/profile/my-orders/623e0faae2c738e92ad48dd2/623e060915360647c435dcb8",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile",
+								"my-orders",
+								"623e0faae2c738e92ad48dd2",
+								"623e060915360647c435dcb8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "My Tickets",
+			"item": [
+				{
+					"name": "/profile/my-tickets/ticketId",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/profile/my-tickets/623dbe226f2ff4cb22d3b4c1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile",
+								"my-tickets",
+								"623dbe226f2ff4cb22d3b4c1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile/my-tickets/ticketId",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"countries\":[\"England\", \"Italy\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/profile/my-tickets/623dbe776f2ff4cb22d3b4c5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile",
+								"my-tickets",
+								"623dbe776f2ff4cb22d3b4c5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile/my-tickets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "profile-id",
+								"value": "6234b8871ba1a75a9e029e5b",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/profile/my-tickets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile",
+								"my-tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile/my-tickets (create)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "profile-id",
+								"value": "6234b8871ba1a75a9e029e5b",
+								"type": "default",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"gallery exposition3\",\r\n    \"description\": \"art exposition\",\r\n    \"date\": \"2022-04-08\",\r\n    \"price\": \"40\",\r\n    \"quantity\": \"260\",\r\n    \"canCancel\": \"true\",\r\n    \"cancelDate\": \"2022-04-02\",\r\n    \"countries\": [\"England\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/profile/my-tickets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profile",
+								"my-tickets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tickets",
+			"item": [
+				{
+					"name": "/tickets/ticketId/comments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tickets/623dbe776f2ff4cb22d3b4c5/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tickets",
+								"623dbe776f2ff4cb22d3b4c5",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tickets/ticketId/comments (add)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Awful performance.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tickets/623dbe776f2ff4cb22d3b4c5/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tickets",
+								"623dbe776f2ff4cb22d3b4c5",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tickets",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "mikeowen@gmail.com",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "11112222",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tickets/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tickets",
+								""
+							],
+							"query": [
+								{
+									"key": "price[lte]",
+									"value": "2000",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-price",
+									"description": "descending order",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "date",
+									"description": "ascending oredr",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "price,-name",
+									"description": "by \"price\" in asc. order, then by \"name\" in des. order",
+									"disabled": true
+								},
+								{
+									"key": "date[lte]",
+									"value": "2022-12-10",
+									"disabled": true
+								},
+								{
+									"key": "date[gte]",
+									"value": "2022-05-20",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "likeCount",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tickets/ticketId/_buy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tickets/623dbe226f2ff4cb22d3b4c1/_buy",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tickets",
+								"623dbe226f2ff4cb22d3b4c1",
+								"_buy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tickets/ticletId/_like",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/tickets/623dbea96f2ff4cb22d3b4c9/_like",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tickets",
+								"623dbea96f2ff4cb22d3b4c9",
+								"_like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tickets/ticketId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/tickets/623dbe776f2ff4cb22d3b4c5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tickets",
+								"623dbe776f2ff4cb22d3b4c5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopping Card",
+			"item": [
+				{
+					"name": "/shopping-card/ticketId",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shopping-card/623dbf2a6f2ff4cb22d3b4cd",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shopping-card",
+								"623dbf2a6f2ff4cb22d3b4cd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/shopping-card/_buy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shopping-card/_buy",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shopping-card",
+								"_buy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/shopping-card",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shopping-card",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shopping-card"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/tickets/ticketId/_addToCard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/tickets/623e0a740a63c63704649a6f/_addToCard",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tickets",
+								"623e0a740a63c63704649a6f",
+								"_addToCard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/shopping-card (clear)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shopping-card/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shopping-card",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://ticketing-system-3.herokuapp.com",
+			"type": "default"
+		},
+		{
+			"key": "Authorization",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFjNDYzOTc3NDNjMzczNzY2MTE5IiwiaWF0IjoxNjQ4MjM0MTgyLCJleHAiOjE2NDgyNDEzODJ9.R15KBSM_FfRoVzcs4NH9fwbV8Y29_5kEfgrxG54bjpk",
+			"type": "default"
+		},
+		{
+			"key": "verification_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFmYjIwYTgxOWQ0NzFlMmMzNDE1IiwiaWF0IjoxNjQ4MjI4NTc2LCJleHAiOjE2NDgyMzU3NzZ9.8zOQh_hl8MC7yR7NqP7Nhp0d1JRDiSxxEHKyLiTfNWA",
+			"type": "default"
+		}
+	]
+}
