@@ -1,9 +1,21 @@
 const Order = require('../models/order')
 const User = require('../models/user')
+const Ticket = require('../models/ticket')
+
 async function buyOneTicketOneTime(req, res, next) {
 	// YOU CAN BUY ONE TICKET ONE TIME
-	const user = await User.findOne({ _id: req.headers['profile-id'] })
-	const { ticketId } = req.params
+	const user = await User.findOne({ _id: req.headers['profile-id'] });
+	const { ticketId } = req.params;
+
+	const ticket = await Ticket.findById(ticketId);
+	const ticketOwner = await User.findById(ticket.userId);
+		if (user === ticketOwner) {
+			res.status(400).json({
+				status: 'fail',
+				message: 'User can not buy tickets created by himself.',
+			});
+			return;
+		}
 
 	const userOrders = await Order.findOne({ userId: user._id })
 	let didWeBuySuchTicket = userOrders.ordersList.reduce((result, orderObject) => {

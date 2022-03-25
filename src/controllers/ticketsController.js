@@ -179,6 +179,14 @@ exports.buyTicket = async (req, res) => {
 			return;
 		}
 		const user = await User.findById(req.headers['profile-id']);
+		const ticketOwner = await User.findById(ticket.userId);
+		if (user === ticketOwner) {
+			res.status(400).json({
+				status: 'fail',
+				message: 'User can not buy tickets created by himself.',
+			});
+			return;
+		}
 		const { coins } = user;
 		const { price } = ticket;
 		if (coins < price) {
@@ -190,7 +198,6 @@ exports.buyTicket = async (req, res) => {
 		}
 		user.coins -= price;
 		await user.save();
-		const ticketOwner = await User.findById(ticket.userId);
 		ticketOwner.coins += price;
 		await ticketOwner.save();
 		ticket.quantity -= 1;
@@ -203,6 +210,7 @@ exports.buyTicket = async (req, res) => {
 				ordersList: [
 					{
 						order: [ticket._id],
+						totalPrice: [ticket.price],
 					},
 				],
 			});
@@ -211,6 +219,7 @@ exports.buyTicket = async (req, res) => {
 			console.log('userOrders', userOrders);
 			userOrders.ordersList[userOrders.ordersList.length] = {
 				order: [ticket._id],
+				totalPrice: [ticket.price],
 			};
 			await userOrders.save();
 		}
