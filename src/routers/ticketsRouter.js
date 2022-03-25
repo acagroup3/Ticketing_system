@@ -351,8 +351,8 @@ ticketsRouter
 		ticketsController.addToShoppingCard
 	)
 	.get('/:id', ticketsController.getTicketDetails)
-	.post('/:id/_like', ticketsController.likeTicket)
-	.post('/:id/_buy', ticketsController.buyTicket);
+	.get('/:id/_like', ticketsController.likeTicket)
+	.get('/:id/_buy', ticketsController.buyTicket);
 
 ticketsRouter.use((err, req, res, next) => {
 	console.log(err);
