@@ -65,7 +65,7 @@ async function cancelTicket(req, res) {
 			}
 			await orders.save();
 
-			res.status(204).send("cancelled");
+			res.status(200).send("cancelled");
 		}
 
 	} catch (err) {
