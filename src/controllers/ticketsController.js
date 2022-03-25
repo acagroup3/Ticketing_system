@@ -210,7 +210,7 @@ exports.buyTicket = async (req, res) => {
 				ordersList: [
 					{
 						order: [ticket._id],
-						totalPrice: [ticket.price],
+						totalPrice: ticket.price,
 					},
 				],
 			});
@@ -219,7 +219,7 @@ exports.buyTicket = async (req, res) => {
 			console.log('userOrders', userOrders);
 			userOrders.ordersList[userOrders.ordersList.length] = {
 				order: [ticket._id],
-				totalPrice: [ticket.price],
+				totalPrice: ticket.price,
 			};
 			await userOrders.save();
 		}
