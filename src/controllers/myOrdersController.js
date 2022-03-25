@@ -50,6 +50,7 @@ async function cancelTicket(req, res) {
 			
 			for(let i = 0; i < orders.ordersList.length; i += 1) {
 				if(JSON.stringify(orders.ordersList[i]._id) === JSON.stringify(orderId)){
+					res.send("in if statement");
 					if(orders.ordersList[i].order.length === 1){
 						orders.ordersList.splice(i, 1);
 						break;
@@ -65,7 +66,7 @@ async function cancelTicket(req, res) {
 			}
 			await orders.save();
 
-			res.status(204).json({ cancelled: 'success' });
+			res.status(204).send("cancelled");
 		}
 
 	} catch (err) {
