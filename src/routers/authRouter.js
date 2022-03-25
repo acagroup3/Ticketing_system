@@ -22,7 +22,7 @@ const router = express.Router();
  *      example: England
  *     email:
  *      type: string
- *      example: mikeowen@gmail.com
+ *      example: aca_node_group3@mail.ru
  *     password:
  *      type: string
  *      example: 11112222
@@ -31,7 +31,7 @@ const router = express.Router();
  *    properties:
  *     email:
  *      type: string
- *      example: mikeowen@gmail.com
+ *      example: aca_node_group3@mail.ru
  *     password:
  *      type: string
  *      example: 11112222
@@ -40,7 +40,7 @@ const router = express.Router();
  *    properties:
  *     email:
  *      type: string
- *      example: mikeowen@gmail.com
+ *      example: aca_node_group3@mail.ru
  *     password:
  *      type: string
  *      example: 11112222
@@ -160,7 +160,7 @@ router.route('/register').post(
 
 /**
  * @swagger
- * /auth/verify/:verificationToken:
+ * /auth/verify/{verificationToken}:
  *	 get:
  *	  tags: [Registration and authentication]
  *	  description: Verify user profile

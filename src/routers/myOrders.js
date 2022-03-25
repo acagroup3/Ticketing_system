@@ -66,7 +66,7 @@ const router = Router();
 
 /**
  * @swagger
- * /profile/my-orders/:orderId:
+ * /profile/my-orders/{orderId}:
  *  get:
  *   tags: [Orders]
  *   security:
@@ -122,7 +122,7 @@ const router = Router();
 
 /**
  * @swagger
- * /profile/my-orders/:orderId/:ticketId:
+ * /profile/my-orders/{orderId}/{ticketId}:
  *  delete:
  *   tags: [Orders]
  *   security:
