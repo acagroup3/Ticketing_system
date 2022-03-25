@@ -49,9 +49,7 @@ async function cancelTicket(req, res) {
 			const orders = await Order.findOne({userId: req.headers['profile-id']});
 			
 			for(let i = 0; i < orders.ordersList.length; i += 1) {
-				res.send(`${JSON.stringify(orders.ordersList[i]._id)} ${JSON.stringify(orderId)}`);
 				if(JSON.stringify(orders.ordersList[i]._id) === JSON.stringify(orderId)){
-					res.send("in if statement");
 					if(orders.ordersList[i].order.length === 1){
 						orders.ordersList.splice(i, 1);
 						break;
