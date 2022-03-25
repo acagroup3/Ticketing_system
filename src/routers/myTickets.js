@@ -22,6 +22,8 @@ const router = Router();
  * /my-tickets:
  *  get:
  *   tags: [My Tickets]
+ *   security:
+ *   - access-token: []
  *   description: Tickets list, created by user.
  *   responses:
  *     200:
@@ -69,6 +71,8 @@ const router = Router();
  * /my-tickets:
  *  post:
  *   tags: [My Tickets]
+ *   security:
+ *   - access-token: []
  *   description: Ticket creation.
  *   parameters:
  *   - name: name

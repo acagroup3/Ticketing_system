@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c08ad51d-29d0-4b76-a584-7c207811134a",
+		"_postman_id": "5e38a736-a8e8-488d-ad4d-deeeead885fa",
 		"name": "Ticketing_System testing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -95,14 +95,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/auth/verify/",
+							"raw": "{{baseUrl}}/auth/verify/{{verification-token}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"auth",
 								"verify",
-								""
+								"{{verification-token}}"
 							]
 						}
 					},
@@ -898,13 +898,15 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "https://ticketing-system-3.herokuapp.com",
-			"type": "default"
+			"value": "https://ticketing-system-3.herokuapp.com"
 		},
 		{
 			"key": "Authorization",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFmYjIwYTgxOWQ0NzFlMmMzNDE1IiwiaWF0IjoxNjQ4MjI4NTc2LCJleHAiOjE2NDgyMzU3NzZ9.8zOQh_hl8MC7yR7NqP7Nhp0d1JRDiSxxEHKyLiTfNWA",
-			"type": "default"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFmYjIwYTgxOWQ0NzFlMmMzNDE1IiwiaWF0IjoxNjQ4MjI4NTc2LCJleHAiOjE2NDgyMzU3NzZ9..."
+		},
+		{
+			"key": "verification-token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFjNDYzOTc3NDNjMzczNzY2MTE5IiwiaWF0IjoxNjQ4MjI4MTg0LCJleHAiOjE2NDgyMzUzODR9.OyKw6RWfQTqm5adSauRwk5udkvtgWGsGnyHG7pD-0Jc"
 		}
 	]
 }

@@ -93,13 +93,10 @@ const ticketsRouter = Router();
  * /tickets/{ticketId}/_addToCard:
  *  get:
  *   tags: [Tickets]
+ *   security:
+ *   - access-token: []
  *   description: Add ticket to shopping card.
  *   parameters:
- *   - name: access-token
- *     in: header
- *     description: an authorization header
- *     required: true
- *     type: string
  *   - name: ticketId
  *     in: path
  *     description: Id of the ticket what to be added in shopping card.
@@ -171,13 +168,10 @@ const ticketsRouter = Router();
  * /tickets/{ticketId}/comments:
  *  get:
  *   tags: [Tickets]
+ *   security:
+ *   - access-token: []
  *   description: Get all comments about ticket with ID(ticketId)
  *   parameters:
- *   - name: access-token
- *     in: header
- *     description: an authorization header
- *     required: true
- *     type: string
  *   - name: ticketId
  *     in: path
  *     description: Id of the ticket to get comments.
@@ -234,13 +228,10 @@ const ticketsRouter = Router();
  * /tickets/{ticketId}/comments:
  *  post:
  *   tags: [Tickets]
+ *   security:
+ *   - access-token: []
  *   description: Add comments about ticket with ID(ticketId)
  *   parameters:
- *   - name: access-token
- *     in: header
- *     description: an authorization header
- *     required: true
- *     type: string
  *   - name: ticketId
  *     in: path
  *     description: Id of the ticket to add comments.
