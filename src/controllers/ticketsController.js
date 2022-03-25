@@ -180,7 +180,7 @@ exports.buyTicket = async (req, res) => {
 		}
 		const user = await User.findById(req.headers['profile-id']);
 		const ticketOwner = await User.findById(ticket.userId);
-		if (user._id === ticketOwner._id) {
+		if (JSON.stringify(user._id) === JSON.stringify(ticketOwner._id)) {
 			res.status(400).json({
 				status: 'fail',
 				message: 'User can not buy tickets created by himself.',
@@ -228,8 +228,6 @@ exports.buyTicket = async (req, res) => {
 			data: {
 				ticket
 			},
-			user: user._id,
-			ticketOwner: ticketOwner._id
 		});
 	} catch (err) {
 		res.status(400).json({

@@ -9,7 +9,7 @@ async function buyOneTicketOneTime(req, res, next) {
 
 	const ticket = await Ticket.findById(ticketId);
 	const ticketOwner = await User.findById(ticket.userId);
-		if (user === ticketOwner) {
+		if (JSON.stringify(user._id) === JSON.stringify(ticketOwner._id)) {
 			res.status(400).json({
 				status: 'fail',
 				message: 'User can not buy tickets created by himself.',
