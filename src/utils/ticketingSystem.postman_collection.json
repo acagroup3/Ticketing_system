@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5e38a736-a8e8-488d-ad4d-deeeead885fa",
+		"_postman_id": "c08ad51d-29d0-4b76-a584-7c207811134a",
 		"name": "Ticketing_System testing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,7 +9,7 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Register user Mike (form)",
+					"name": "/auth/register(form)",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -62,7 +62,7 @@
 					"response": []
 				},
 				{
-					"name": "Register user Frank (JSON)",
+					"name": "/auth/register(JSON)",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -90,26 +90,26 @@
 					"response": []
 				},
 				{
-					"name": "Verification link",
+					"name": "/auth/verity/verificationToken",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/auth/verify/{{verification-token}}",
+							"raw": "{{baseUrl}}/auth/verify/{{verification_token}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"auth",
 								"verify",
-								"{{verification-token}}"
+								"{{verification_token}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Login",
+					"name": "/auth/login(form)",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -118,12 +118,12 @@
 							"urlencoded": [
 								{
 									"key": "email",
-									"value": "nodejs.project.group3@gmail.com",
+									"value": "aca_node_group3@mail.ru",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "22446688",
+									"value": "11112222",
 									"type": "text"
 								}
 							],
@@ -147,7 +147,7 @@
 					"response": []
 				},
 				{
-					"name": "Resend verification link",
+					"name": "/auth/login(JSON)",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -179,7 +179,7 @@
 			"name": "Profile",
 			"item": [
 				{
-					"name": "Profile request with access-token",
+					"name": "/profile",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -202,7 +202,7 @@
 					"response": []
 				},
 				{
-					"name": "Profile request with refresh-token",
+					"name": "/profile (refresh)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -225,7 +225,7 @@
 					"response": []
 				},
 				{
-					"name": "Logout",
+					"name": "/profile/logout",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -258,12 +258,6 @@
 					"request": {
 						"method": "GET",
 						"header": [
-							{
-								"key": "profile-id",
-								"value": "6234b8871ba1a75a9e029e5b",
-								"type": "default",
-								"disabled": true
-							},
 							{
 								"key": "Authorization",
 								"value": "{{Authorization}}",
@@ -313,14 +307,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/profile/my-orders/6239d953029f22265a2361f1",
+							"raw": "{{baseUrl}}/profile/my-orders/623e0faae2c738e92ad48dd2",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"profile",
 								"my-orders",
-								"6239d953029f22265a2361f1"
+								"623e0faae2c738e92ad48dd2"
 							]
 						}
 					},
@@ -344,15 +338,15 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/profile/my-orders/623dc9bd0b9bcf9263011459/623dbe226f2ff4cb22d3b4c1",
+							"raw": "{{baseUrl}}/profile/my-orders/623e0faae2c738e92ad48dd2/623e060915360647c435dcb8",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"profile",
 								"my-orders",
-								"623dc9bd0b9bcf9263011459",
-								"623dbe226f2ff4cb22d3b4c1"
+								"623e0faae2c738e92ad48dd2",
+								"623e060915360647c435dcb8"
 							]
 						}
 					},
@@ -364,7 +358,7 @@
 			"name": "My Tickets",
 			"item": [
 				{
-					"name": "DeleteTicket",
+					"name": "/profile/my-tickets/ticketId",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -398,7 +392,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Ticket",
+					"name": "/profile/my-tickets/ticketId",
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -432,7 +426,7 @@
 					"response": []
 				},
 				{
-					"name": "Get my tickets",
+					"name": "/profile/my-tickets",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -462,7 +456,7 @@
 					"response": []
 				},
 				{
-					"name": "Create new ticket",
+					"name": "/profile/my-tickets (create)",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -480,7 +474,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"gallery exposition\",\r\n    \"description\": \"historical exposition\",\r\n    \"date\": \"2022-05-23\",\r\n    \"price\": \"15.5\",\r\n    \"quantity\": \"1000\",\r\n    \"canCancel\": \"true\",\r\n    \"cancelDate\": \"2022-05-20\",\r\n    \"countries\": [\"United States, England\"]\r\n}",
+							"raw": "{\r\n    \"name\": \"gallery exposition3\",\r\n    \"description\": \"art exposition\",\r\n    \"date\": \"2022-04-08\",\r\n    \"price\": \"40\",\r\n    \"quantity\": \"260\",\r\n    \"canCancel\": \"true\",\r\n    \"cancelDate\": \"2022-04-02\",\r\n    \"countries\": [\"England\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -506,7 +500,7 @@
 			"name": "Tickets",
 			"item": [
 				{
-					"name": "Get ticket comments",
+					"name": "/tickets/ticketId/comments",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -543,7 +537,7 @@
 					"response": []
 				},
 				{
-					"name": "Add a comment to ticket",
+					"name": "/tickets/ticketId/comments (add)",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -577,7 +571,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Tickets",
+					"name": "/tickets",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -661,7 +655,7 @@
 					"response": []
 				},
 				{
-					"name": "/ticketId/_buy",
+					"name": "/tickets/ticketId/_buy",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -693,7 +687,7 @@
 					"response": []
 				},
 				{
-					"name": "/ticletId/_like",
+					"name": "/tickets/ticletId/_like",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -718,7 +712,7 @@
 					"response": []
 				},
 				{
-					"name": "/ticketId",
+					"name": "/tickets/ticketId",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -747,7 +741,7 @@
 			"name": "Shopping Card",
 			"item": [
 				{
-					"name": "Remove ticket from shopping card",
+					"name": "/shopping-card/ticketId",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -758,26 +752,20 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/shopping-card/:ticketId",
+							"raw": "{{baseUrl}}/shopping-card/623dbf2a6f2ff4cb22d3b4cd",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"shopping-card",
-								":ticketId"
-							],
-							"variable": [
-								{
-									"key": "ticketId",
-									"value": ""
-								}
+								"623dbf2a6f2ff4cb22d3b4cd"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Buy tickets from shopping card",
+					"name": "/shopping-card/_buy",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -801,7 +789,7 @@
 					"response": []
 				},
 				{
-					"name": "Show tickets in shopping card",
+					"name": "/shopping-card",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -824,7 +812,7 @@
 					"response": []
 				},
 				{
-					"name": "Add ticket to shopping card",
+					"name": "/tickets/ticketId/_addToCard",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -835,13 +823,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/tickets/623dbe776f2ff4cb22d3b4c5/_addToCard",
+							"raw": "{{baseUrl}}/tickets/623e0a740a63c63704649a6f/_addToCard",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"tickets",
-								"623dbe776f2ff4cb22d3b4c5",
+								"623e0a740a63c63704649a6f",
 								"_addToCard"
 							]
 						}
@@ -849,7 +837,7 @@
 					"response": []
 				},
 				{
-					"name": "Empty shopping card",
+					"name": "/shopping-card (clear)",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -898,15 +886,18 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "https://ticketing-system-3.herokuapp.com"
+			"value": "https://ticketing-system-3.herokuapp.com",
+			"type": "default"
 		},
 		{
 			"key": "Authorization",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFmYjIwYTgxOWQ0NzFlMmMzNDE1IiwiaWF0IjoxNjQ4MjI4NTc2LCJleHAiOjE2NDgyMzU3NzZ9..."
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFjNDYzOTc3NDNjMzczNzY2MTE5IiwiaWF0IjoxNjQ4MjM0MTgyLCJleHAiOjE2NDgyNDEzODJ9.R15KBSM_FfRoVzcs4NH9fwbV8Y29_5kEfgrxG54bjpk",
+			"type": "default"
 		},
 		{
-			"key": "verification-token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFjNDYzOTc3NDNjMzczNzY2MTE5IiwiaWF0IjoxNjQ4MjI4MTg0LCJleHAiOjE2NDgyMzUzODR9.OyKw6RWfQTqm5adSauRwk5udkvtgWGsGnyHG7pD-0Jc"
+			"key": "verification_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9maWxlLWlkIjoiNjIzZGFmYjIwYTgxOWQ0NzFlMmMzNDE1IiwiaWF0IjoxNjQ4MjI4NTc2LCJleHAiOjE2NDgyMzU3NzZ9.8zOQh_hl8MC7yR7NqP7Nhp0d1JRDiSxxEHKyLiTfNWA",
+			"type": "default"
 		}
 	]
 }
