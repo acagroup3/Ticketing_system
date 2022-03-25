@@ -17,12 +17,12 @@ const validateDate =
 
 const validatePrice =
     body("price").not().isEmpty().withMessage("Price is a mandatory field.")
-	.isNumeric({gt: 0}).withMessage("Price must be numeric.");
+	.isFloat({gt: 0}).withMessage("Price must be positive number.");
 
 const validateQuantity = 
 	body("quantity").not().isEmpty().withMessage("Quantity is a mandatory field.")
 	.isNumeric().withMessage("Quantity must be numeric.")
-	.isInt({ gt: 0 }).withMessage("Quantity value should be positive integer");
+	.isInt({ gt: 0 }).withMessage("Quantity value should be positive integer number.");
 
 const validatecanCancel = 
 	body("canCancel").isBoolean().withMessage("Cancelability must be boolean.")
