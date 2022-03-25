@@ -68,11 +68,11 @@ const router = Router();
 
 /**
  * @swagger
- * /my-tickets:
+ * /profile/my-tickets/{id}:
  *  post:
  *   tags: [My Tickets]
  *   security:
- *   - access-token: []
+ *    - access-token: []
  *   description: Ticket creation.
  *   parameters:
  *   - name: name
@@ -104,7 +104,7 @@ const router = Router();
  *     in: body
  *     description: ticket cancalability
  *     required: false
- *     type: boolean
+ *     type: Boolean
  *   - name: cancelDate
  *     in: body
  *     description: the date before which ticket can be canceled, available only if canCancel is true
