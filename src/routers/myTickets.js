@@ -10,11 +10,11 @@ const router = Router();
  *   tags:
  *    - name: My Tickets
  *   securitySchemes:
- *     access-token:      
+ *     access-token:
  *       type: http
  *       scheme: bearer
- *       bearerFormat: JWT 
- * 
+ *       bearerFormat: JWT
+ *
  */
 
 /**
@@ -44,24 +44,24 @@ const router = Router();
  *       description: Unauthorized
  *       content:
  *         text/plain:
- *          schema:    
+ *          schema:
  *            type: string
- *            example: Access-token is not set in request header 
+ *            example: Access-token is not set in request header
  *     404:
  *       description: Error:Not Found
  *       content:
  *         text/plain:
- *          schema:    
+ *          schema:
  *            type: string
  *            example: Access token is not valid
  *     500:
  *       description: Server error
  *       content:
  *         text/plain:
- *          schema:    
+ *          schema:
  *            type: string
- *            example: Something went wrong. 
- *   
+ *            example: Something went wrong.
+ *
  */
 
 /**
@@ -90,12 +90,12 @@ const router = Router();
  *     in: body
  *     description: ticket price
  *     required: true
- *     type: integer
+ *     type: number
  *   - name: quantity
  *     in: body
  *     description: ticket quantity
  *     required: true
- *     type: integer
+ *     type: number
  *   - name: canCancel
  *     in: body
  *     description: ticket cancalability
@@ -148,7 +148,7 @@ const router = Router();
  *       description: Incorrect Ticket data was entered
  *       content:
  *         text/plain:
- *          schema:    
+ *          schema:
  *            type: string
  *            example: Name is a mandatory field, it's shoul contain min 3 characters.
  *                     Date is a mandatory field, it must be in yyyy-mm-dd format and in the future.
@@ -161,24 +161,24 @@ const router = Router();
  *       description: Unauthorized
  *       content:
  *         text/plain:
- *          schema:    
+ *          schema:
  *            type: string
- *            example: Access-token is not set in request header 
+ *            example: Access-token is not set in request header
  *     404:
  *       description: Error:Not Found
  *       content:
  *         text/plain:
- *          schema:    
+ *          schema:
  *            type: string
  *            example: Access token is not valid
  *     500:
  *       description: Server error
  *       content:
  *         text/plain:
- *          schema:    
+ *          schema:
  *            type: string
- *            example: Something went wrong. 
- *   
+ *            example: Something went wrong.
+ *
  */
 
 router
@@ -196,6 +196,75 @@ router
 		validateTicketData.validateCountry,
 		myTicketsController.createTicket
 	)
+	/**
+	 * @swagger
+	 * /profile/my-tickets/{id}:
+	 *  put:
+	 *   tags: [My Tickets]
+	 *   security:
+	 *    - access-token: []
+	 *   parameters:
+	 *   - in: path
+	 *     name: id
+	 *     required: true
+	 *     type: id
+	 *   schema:
+	 *       type: object
+	 *   requestBody:
+	 *     required: true
+	 *     content:
+	 *       application/json:
+	 *          schema:
+	 *               properties:
+	 *                 name:
+	 *                   type: String
+	 *                   required: true
+	 *                   description: Event name
+	 *                   example: "The Moon"
+	 *                 date:
+	 *                   type: Date
+	 *                   required: true
+	 *                   description: Event date
+	 *                   example: 2022.10.01
+	 *                 description:
+	 *                   type: String
+	 *                   required: true
+	 *                   description: Event info
+	 *                   example: The event will start at 4 30pm with Jeanna Lambrew
+	 *                 price:
+	 *                   type: Number
+	 *                   required: true
+	 *                   description: Price of ticket
+	 *                   example: 525
+	 *                 cancelDate:
+	 *                   type: Date
+	 *                   description:  before this date, the user can cancel the order for any reason and get their money back
+	 *                   example: 2022.09.11
+	 *                 countries:
+	 *                   type: Array[String]
+	 *                   description: Array of countries where the ticket is available
+	 *                   example: ['Armenia', England]
+	 *   responses:
+	 *     200:
+	 *       description: Ticket was successfully updated
+	 *       content:
+	 *         text/plain:
+	 *          schema:
+	 *            type: string
+	 *            example: edited
+	 *     400:
+	 *       description: wrong input
+	 *       content:
+	 *         application/json:
+	 *          schema:
+	 *            type: object
+	 *            properties:
+	 *              error:
+	 *                type: string
+	 *            example:
+	 *              error: wrong data
+	 */
+
 	.patch(
 		'/:id',
 		validateTicketData.validateName,
@@ -203,6 +272,32 @@ router
 		validateTicketData.validateDate,
 		myTicketsController.editTicket
 	)
+	/**
+	 * @swagger
+	 * /profile/my-tickets/{id}:
+	 *  delete:
+	 *   tags: [My Tickets]
+	 *   security:
+	 *    - access-token: []
+	 *   description: delete ticket.
+	 *   produces:
+	 *   - application/json:
+	 *   parameters:
+	 *   - name: id
+	 *     in: path
+	 *     required: true
+	 *     schema:
+	 *        type: string
+	 *     description: Id of the ticket  need to be deleted.
+	 *     type: id
+	 *   responses:
+	 *     204:
+	 *       description: Ticket deleted
+	 *     400:
+	 *       description:  no ticket with such ID.
+	 *     404:
+	 *       description: Error:Not found.
+	 */
 	.delete('/:id', myTicketsController.deleteTicket);
 
 module.exports = router;
