@@ -54,7 +54,7 @@ exports.addUser = async (req, res) => {
 				htmlText = await convertPugToHTML('verify.pug', {
 					name: user.firstName,
 					token: verificationToken,
-					host: `${process.env.HOST}:${process.env.PORT}`
+					host: `${process.env.HOST}`
 				});
 			};			
 
@@ -220,7 +220,7 @@ exports.login = async (req, res) => {
 							htmlText = await convertPugToHTML('verify.pug', {
 								name: user.firstName,
 								token: verificationToken,
-								host: `${process.env.HOST}:${process.env.PORT}`
+								host: `${process.env.HOST}`
 							});
 						};			
 
